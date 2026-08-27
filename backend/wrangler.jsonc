@@ -1,0 +1,29 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "ai-film-chart-api",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-08-25",
+	"observability": {
+		"enabled": true
+	},
+	"upload_source_maps": true,
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "ai-film-chart-db",
+			"database_id": "your-database-id-here",
+			"migrations_dir": "src/db"
+		}
+	],
+	"ai": {
+		"binding": "AI"
+	},
+	"triggers": {
+		"crons": [
+			"0 0 */3 * *"
+		]
+	},
+	"vars": {
+		"ENVIRONMENT": "development"
+	}
+}
