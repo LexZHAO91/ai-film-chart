@@ -11,7 +11,7 @@
 		{
 			"binding": "DB",
 			"database_name": "ai-film-chart-db",
-			"database_id": "your-database-id-here",
+			"database_id": "052c3f20-d4d8-4fa1-8d89-cea23b55ef28",
 			"migrations_dir": "src/db"
 		}
 	],
