@@ -178,6 +178,22 @@ CREATE TABLE IF NOT EXISTS ai_usage (
   UNIQUE(date, task_type)
 );
 
+-- Admin audit logs: track admin actions
+CREATE TABLE IF NOT EXISTS admin_audit_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  film_id INTEGER NOT NULL,
+  action TEXT NOT NULL,
+  previous_status TEXT NOT NULL,
+  new_status TEXT NOT NULL,
+  reason TEXT NOT NULL,
+  operator TEXT NOT NULL,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (film_id) REFERENCES films(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_audit_film_id ON admin_audit_logs(film_id);
+CREATE INDEX IF NOT EXISTS idx_audit_created_at ON admin_audit_logs(created_at);
+
 -- Seed default ranking config
 INSERT OR IGNORE INTO ranking_configs (
   version, popularity_weight, momentum_weight, engagement_weight,
