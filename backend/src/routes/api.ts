@@ -99,7 +99,7 @@ export async function handleApiRequest(request: Request, env: Env): Promise<Resp
       }
 
       if (path === '/api/admin/run-discovery' && request.method === 'POST') {
-        return await runDiscovery(env.DB, headers);
+        return await runDiscovery(env.DB, headers, env);
       }
 
       if (path === '/api/admin/run-ranking' && request.method === 'POST') {
@@ -255,19 +255,37 @@ async function getJobs(db: D1Database, headers: Record<string, string>): Promise
   return jsonResponse({ jobs }, 200, headers);
 }
 
-async function runDiscovery(db: D1Database, headers: Record<string, string>): Promise<Response> {
+async function runDiscovery(db: D1Database, headers: Record<string, string>, env: Env): Promise<Response> {
   const jobModel = new JobModel(db);
   const jobId = `discovery_${Date.now()}`;
 
   await jobModel.create({
     job_id: jobId,
     type: 'discovery',
-    status: 'pending',
+    status: 'processing',
     cursor: null,
     batch_size: 20,
     progress: 0,
     error_message: null,
   });
+
+  // Execute discovery job immediately (non-blocking)
+  if (env.YOUTUBE_API_KEY) {
+    // Use waitUntil to run job in background
+    // Note: In Cloudflare Workers, we can't use waitUntil in fetch handler
+    // So we run it synchronously but with a timeout
+    try {
+      const { runDiscoveryJob } = await import('../jobs/discovery-job');
+      await runDiscoveryJob(db, env.YOUTUBE_API_KEY, jobId);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Discovery failed';
+      await jobModel.updateStatus(jobId, 'failed', errorMessage);
+      return jsonResponse({ success: false, jobId, error: errorMessage }, 500, headers);
+    }
+  } else {
+    await jobModel.updateStatus(jobId, 'failed', 'YOUTUBE_API_KEY not configured');
+    return jsonResponse({ success: false, jobId, error: 'YOUTUBE_API_KEY not configured' }, 500, headers);
+  }
 
   return jsonResponse({ success: true, jobId }, 200, headers);
 }
