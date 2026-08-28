@@ -3,8 +3,16 @@ import { FilmModel } from '../models/film';
 import { RankingModel } from '../models/ranking';
 import { JobModel } from '../models/job';
 import { RankingEngineV2 } from '../ranking/ranking-engine-v2';
+import { ShadowRankingEngine } from '../ranking/shadow-ranking-engine';
 import { MOCK_FILMS, generateMockMetrics, generateMockAIAnalysis } from '../utils/mock-data';
 import { AdminAuditModel } from '../models/admin-audit';
+import { SeedImportService } from '../services/seed-import-service';
+import { SourceManagementService } from '../services/source-management-service';
+import { DataProvenanceService } from '../services/data-provenance-service';
+import { RecognitionSignalService } from '../services/recognition-signal-service';
+import { SeedPoolValidator } from '../services/seed-pool-validator';
+import { WorkService } from '../works';
+import { ContentEligibilityService } from '../eligibility';
 
 export interface Env {
   DB: D1Database;
@@ -108,6 +116,59 @@ export async function handleApiRequest(request: Request, env: Env): Promise<Resp
 
       if (path === '/api/admin/seed-mock-data' && request.method === 'POST') {
         return await seedMockData(env.DB, headers);
+      }
+
+      // Phase 19-25: New Admin APIs
+      if (path === '/api/admin/works' && request.method === 'GET') {
+        return await getWorks(env.DB, url, headers);
+      }
+
+      if (path === '/api/admin/works' && request.method === 'POST') {
+        return await createWork(env.DB, request, headers);
+      }
+
+      if (path === '/api/admin/works/import' && request.method === 'POST') {
+        return await importSeedWorks(env.DB, request, headers);
+      }
+
+      if (path === '/api/admin/works/:id/sources' && request.method === 'GET') {
+        const id = parseInt(path.split('/')[4], 10);
+        return await getWorkSources(env.DB, id, headers);
+      }
+
+      if (path === '/api/admin/works/:id/merge' && request.method === 'POST') {
+        const id = parseInt(path.split('/')[4], 10);
+        return await mergeWork(env.DB, id, request, headers);
+      }
+
+      if (path === '/api/admin/sources' && request.method === 'GET') {
+        return await getDataSources(env.DB, headers);
+      }
+
+      if (path === '/api/admin/sources/:id/toggle' && request.method === 'POST') {
+        const sourceId = path.split('/')[4];
+        return await toggleDataSource(env.DB, sourceId, headers);
+      }
+
+      if (path === '/api/admin/ranking/shadow' && request.method === 'GET') {
+        return await getShadowRanking(env.DB, headers);
+      }
+
+      if (path === '/api/admin/ranking/compare' && request.method === 'GET') {
+        return await compareRankings(env.DB, headers);
+      }
+
+      if (path === '/api/admin/validation/seed-pool' && request.method === 'GET') {
+        return await validateSeedPool(env.DB, headers);
+      }
+
+      if (path === '/api/admin/recognition' && request.method === 'POST') {
+        return await addRecognitionSignal(env.DB, request, headers);
+      }
+
+      if (path === '/api/admin/provenance/:workId' && request.method === 'GET') {
+        const workId = parseInt(path.split('/')[4], 10);
+        return await getProvenance(env.DB, workId, headers);
       }
     }
 
@@ -478,4 +539,272 @@ async function seedMockData(db: D1Database, headers: Record<string, string>): Pr
   }
 
   return jsonResponse({ success: true, results }, 200, headers);
+}
+
+// ==================== Phase 19-25: New Admin Handlers ====================
+
+async function getWorks(db: D1Database, url: URL, headers: Record<string, string>): Promise<Response> {
+  const workService = new WorkService(db);
+  const type = url.searchParams.get('type') || undefined;
+  const limit = parseInt(url.searchParams.get('limit') || '50', 10);
+  const offset = parseInt(url.searchParams.get('offset') || '0', 10);
+
+  const works = await workService.listWorks({ type: type as any, limit, offset });
+  return jsonResponse({ works }, 200, headers);
+}
+
+async function createWork(db: D1Database, request: Request, headers: Record<string, string>): Promise<Response> {
+  const workService = new WorkService(db);
+  const eligibilityService = new ContentEligibilityService();
+
+  try {
+    const body = await request.json() as {
+      title: string;
+      type: string;
+      synopsis?: string;
+      director?: string;
+      durationSeconds?: number;
+      releaseYear?: number;
+      country?: string;
+      sources?: { type: string; url: string }[];
+    };
+
+    // Run eligibility check
+    const eligibility = await eligibilityService.evaluate({
+      title: body.title,
+      description: body.synopsis || '',
+      durationSeconds: body.durationSeconds,
+    });
+
+    if (!eligibility.eligible) {
+      return jsonResponse({
+        success: false,
+        eligible: false,
+        rejectReason: eligibility.rejectReason,
+        confidence: eligibility.confidence,
+      }, 400, headers);
+    }
+
+    const work = await workService.createWork({
+      canonicalTitle: body.title,
+      type: body.type as any,
+      synopsis: body.synopsis,
+      creatorName: body.director,
+      durationSeconds: body.durationSeconds,
+      releaseYear: body.releaseYear,
+      country: body.country,
+    });
+
+    // Add sources
+    if (body.sources) {
+      for (const source of body.sources) {
+        await workService.addWorkSource({
+          workId: work.id,
+          sourceType: source.type,
+          canonicalUrl: source.url,
+        });
+      }
+    }
+
+    return jsonResponse({ success: true, work, eligibility }, 200, headers);
+  } catch (error) {
+    return jsonResponse({
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    }, 500, headers);
+  }
+}
+
+async function importSeedWorks(db: D1Database, request: Request, headers: Record<string, string>): Promise<Response> {
+  const seedService = new SeedImportService(db);
+
+  try {
+    const body = await request.json() as {
+      format: 'csv' | 'json';
+      data: string;
+    };
+
+    let entries;
+    if (body.format === 'csv') {
+      entries = seedService.parseCSV(body.data);
+    } else {
+      entries = seedService.parseJSON(body.data);
+    }
+
+    const result = await seedService.importBatch(entries, 'admin');
+
+    return jsonResponse({ success: true, result }, 200, headers);
+  } catch (error) {
+    return jsonResponse({
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    }, 500, headers);
+  }
+}
+
+async function getWorkSources(db: D1Database, workId: number, headers: Record<string, string>): Promise<Response> {
+  const workService = new WorkService(db);
+  const sources = await workService.getWorkSources(workId);
+  return jsonResponse({ workId, sources }, 200, headers);
+}
+
+async function mergeWork(db: D1Database, targetWorkId: number, request: Request, headers: Record<string, string>): Promise<Response> {
+  const workService = new WorkService(db);
+
+  try {
+    const body = await request.json() as { sourceWorkId: number; reason: string };
+    await workService.mergeWorks(targetWorkId, body.sourceWorkId, body.reason);
+
+    return jsonResponse({
+      success: true,
+      message: `Merged work ${body.sourceWorkId} into ${targetWorkId}`,
+    }, 200, headers);
+  } catch (error) {
+    return jsonResponse({
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    }, 500, headers);
+  }
+}
+
+async function getDataSources(db: D1Database, headers: Record<string, string>): Promise<Response> {
+  const sourceService = new SourceManagementService(db);
+  const sources = await sourceService.getAllSources();
+  const stats = await sourceService.getStats();
+
+  return jsonResponse({ sources, stats }, 200, headers);
+}
+
+async function toggleDataSource(db: D1Database, sourceId: string, headers: Record<string, string>): Promise<Response> {
+  const sourceService = new SourceManagementService(db);
+  const source = await sourceService.getSource(sourceId);
+
+  if (!source) {
+    return jsonResponse({ error: 'Source not found' }, 404, headers);
+  }
+
+  const newStatus = source.status === 'active' ? 'paused' : 'active';
+  await sourceService.updateStatus(sourceId, newStatus);
+
+  return jsonResponse({ success: true, sourceId, newStatus }, 200, headers);
+}
+
+async function getShadowRanking(db: D1Database, headers: Record<string, string>): Promise<Response> {
+  const engine = new ShadowRankingEngine(db);
+
+  // Get all approved works
+  const workService = new WorkService(db);
+  const works = await workService.listWorks({ eligibilityStatus: 'approved' as any });
+  const workIds = works.map(w => w.id);
+
+  if (workIds.length === 0) {
+    return jsonResponse({ error: 'No approved works found' }, 400, headers);
+  }
+
+  const { rankings } = await engine.calculateExperimentalRanking(workIds);
+
+  return jsonResponse({
+    version: 'v0.2',
+    totalWorks: workIds.length,
+    rankings: rankings.slice(0, 100),
+  }, 200, headers);
+}
+
+async function compareRankings(db: D1Database, headers: Record<string, string>): Promise<Response> {
+  const engine = new ShadowRankingEngine(db);
+  const workService = new WorkService(db);
+
+  const works = await workService.listWorks({ eligibilityStatus: 'approved' as any });
+  const workIds = works.map(w => w.id);
+
+  if (workIds.length === 0) {
+    return jsonResponse({ error: 'No approved works found' }, 400, headers);
+  }
+
+  // Get experimental rankings
+  const { rankings: experimentalRankings } = await engine.calculateExperimentalRanking(workIds);
+
+  // Build current rankings (simplified from work_metrics)
+  const currentRankings = [];
+  for (let i = 0; i < works.length; i++) {
+    const work = works[i];
+    const { results: metrics } = await db
+      .prepare('SELECT views FROM work_metrics WHERE work_id = ? ORDER BY collected_at DESC')
+      .bind(work.id)
+      .all<{ views: number }>();
+
+    const views = metrics?.[0]?.views || 0;
+    currentRankings.push({
+      workId: work.id,
+      rank: 0, // Will be sorted
+      score: views,
+      title: work.canonicalTitle,
+    });
+  }
+
+  currentRankings.sort((a, b) => b.score - a.score);
+  currentRankings.forEach((r, i) => { r.rank = i + 1; });
+
+  const comparison = await engine.compareRankings(currentRankings, experimentalRankings);
+
+  return jsonResponse({
+    currentVersion: 'v0.1',
+    experimentalVersion: 'v0.2',
+    totalWorks: works.length,
+    comparison: comparison.slice(0, 50),
+  }, 200, headers);
+}
+
+async function validateSeedPool(db: D1Database, headers: Record<string, string>): Promise<Response> {
+  const validator = new SeedPoolValidator(db);
+
+  try {
+    const result = await validator.validate();
+    const report = validator.generateReport(result);
+
+    return jsonResponse({
+      success: true,
+      result,
+      report,
+    }, 200, headers);
+  } catch (error) {
+    return jsonResponse({
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    }, 500, headers);
+  }
+}
+
+async function addRecognitionSignal(db: D1Database, request: Request, headers: Record<string, string>): Promise<Response> {
+  const service = new RecognitionSignalService(db);
+
+  try {
+    const body = await request.json() as {
+      workId: number;
+      organization: string;
+      event: string;
+      category?: string;
+      awardLevel: string;
+      year?: number;
+      sourceUrl?: string;
+    };
+
+    const signal = await service.addSignal(body);
+
+    return jsonResponse({ success: true, signal }, 200, headers);
+  } catch (error) {
+    return jsonResponse({
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    }, 500, headers);
+  }
+}
+
+async function getProvenance(db: D1Database, workId: number, headers: Record<string, string>): Promise<Response> {
+  const service = new DataProvenanceService(db);
+
+  const records = await service.getByWork(workId);
+  const summary = await service.getSummary(workId);
+
+  return jsonResponse({ workId, records, summary }, 200, headers);
 }
