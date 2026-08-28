@@ -11,8 +11,14 @@ import { SourceManagementService } from '../services/source-management-service';
 import { DataProvenanceService } from '../services/data-provenance-service';
 import { RecognitionSignalService } from '../services/recognition-signal-service';
 import { SeedPoolValidator } from '../services/seed-pool-validator';
+import { RankingValidationService } from '../services/ranking-validation-service';
 import { WorkService } from '../works';
 import { ContentEligibilityService } from '../eligibility';
+import {
+  PopularityOnlyEngine,
+  PopularityAudienceEngine,
+  FullRankingEngine,
+} from '../ranking/experimental-ranking-engines';
 
 export interface Env {
   DB: D1Database;
@@ -131,14 +137,19 @@ export async function handleApiRequest(request: Request, env: Env): Promise<Resp
         return await importSeedWorks(env.DB, request, headers);
       }
 
-      if (path === '/api/admin/works/:id/sources' && request.method === 'GET') {
+      if (path.startsWith('/api/admin/works/') && path.endsWith('/sources') && request.method === 'GET') {
         const id = parseInt(path.split('/')[4], 10);
         return await getWorkSources(env.DB, id, headers);
       }
 
-      if (path === '/api/admin/works/:id/merge' && request.method === 'POST') {
+      if (path.startsWith('/api/admin/works/') && path.endsWith('/merge') && request.method === 'POST') {
         const id = parseInt(path.split('/')[4], 10);
         return await mergeWork(env.DB, id, request, headers);
+      }
+
+      if (path.startsWith('/api/admin/works/') && path.endsWith('/review') && request.method === 'POST') {
+        const id = parseInt(path.split('/')[4], 10);
+        return await updateWorkReview(env.DB, id, request, headers);
       }
 
       if (path === '/api/admin/sources' && request.method === 'GET') {
@@ -169,6 +180,23 @@ export async function handleApiRequest(request: Request, env: Env): Promise<Resp
       if (path === '/api/admin/provenance/:workId' && request.method === 'GET') {
         const workId = parseInt(path.split('/')[4], 10);
         return await getProvenance(env.DB, workId, headers);
+      }
+
+      // Phase 26: Seed Review & Experimental Rankings
+      if (path === '/api/admin/seed-review' && request.method === 'GET') {
+        return await getSeedReview(env.DB, url, headers);
+      }
+
+      if (path === '/api/admin/ranking/experimental' && request.method === 'GET') {
+        return await getExperimentalRankings(env.DB, url, headers);
+      }
+
+      if (path === '/api/admin/ranking/validation' && request.method === 'GET') {
+        return await getRankingValidation(env.DB, headers);
+      }
+
+      if (path === '/api/admin/seed-pool/import-batch-1' && request.method === 'POST') {
+        return await importSeedPoolBatch1Handler(env.DB, headers);
       }
     }
 
@@ -807,4 +835,152 @@ async function getProvenance(db: D1Database, workId: number, headers: Record<str
   const summary = await service.getSummary(workId);
 
   return jsonResponse({ workId, records, summary }, 200, headers);
+}
+
+// ==================== Phase 26: Seed Review & Experimental Ranking Handlers ====================
+
+async function getSeedReview(db: D1Database, url: URL, headers: Record<string, string>): Promise<Response> {
+  const limit = parseInt(url.searchParams.get('limit') || '50', 10);
+  const offset = parseInt(url.searchParams.get('offset') || '0', 10);
+
+  const { results } = await db
+    .prepare(`
+      SELECT
+        w.id,
+        w.canonical_title as title,
+        w.type,
+        w.format,
+        w.duration_seconds,
+        w.human_quality_rating,
+        w.human_classification,
+        w.eligibility_confidence,
+        w.ai_contribution_level,
+        (SELECT canonical_url FROM work_sources WHERE work_id = w.id AND is_primary_source = 1 LIMIT 1) as primary_source_url,
+        (SELECT source_type FROM work_sources WHERE work_id = w.id AND is_primary_source = 1 LIMIT 1) as primary_source_type,
+        (SELECT COUNT(*) FROM recognition_signals WHERE work_id = w.id) as recognition_count,
+        (SELECT views FROM work_metrics WHERE work_id = w.id ORDER BY collected_at DESC LIMIT 1) as views,
+        (SELECT likes FROM work_metrics WHERE work_id = w.id ORDER BY collected_at DESC LIMIT 1) as likes,
+        (SELECT comments FROM work_metrics WHERE work_id = w.id ORDER BY collected_at DESC LIMIT 1) as comments
+      FROM works w
+      ORDER BY w.created_at DESC
+      LIMIT ? OFFSET ?
+    `)
+    .bind(limit, offset)
+    .all();
+
+  return jsonResponse({ works: results || [] }, 200, headers);
+}
+
+async function updateWorkReview(db: D1Database, workId: number, request: Request, headers: Record<string, string>): Promise<Response> {
+  try {
+    const body = await request.json() as {
+      humanQualityRating?: number;
+      humanClassification?: 'keep' | 'reject' | 'review';
+      reviewNotes?: string;
+      reviewedBy?: string;
+    };
+
+    await db
+      .prepare(`
+        UPDATE works
+        SET human_quality_rating = ?,
+            human_classification = ?,
+            review_notes = ?,
+            reviewed_by = ?,
+            reviewed_at = CURRENT_TIMESTAMP,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+      `)
+      .bind(
+        body.humanQualityRating ?? null,
+        body.humanClassification ?? null,
+        body.reviewNotes ?? null,
+        body.reviewedBy ?? 'admin',
+        workId
+      )
+      .run();
+
+    return jsonResponse({ success: true, workId }, 200, headers);
+  } catch (error) {
+    return jsonResponse({
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    }, 500, headers);
+  }
+}
+
+async function getExperimentalRankings(db: D1Database, url: URL, headers: Record<string, string>): Promise<Response> {
+  const type = url.searchParams.get('type') || 'all'; // popularity_only, popularity_audience, full, all
+
+  const workService = new WorkService(db);
+  const works = await workService.listWorks({ eligibilityStatus: 'approved' as any });
+  const workIds = works.map(w => w.id);
+
+  if (workIds.length === 0) {
+    return jsonResponse({ error: 'No approved works found' }, 400, headers);
+  }
+
+  const result: Record<string, unknown> = { totalWorks: workIds.length };
+
+  if (type === 'all' || type === 'popularity_only') {
+    const engine = new PopularityOnlyEngine();
+    result.popularityOnly = await engine.runRanking(db, workIds);
+  }
+
+  if (type === 'all' || type === 'popularity_audience') {
+    const engine = new PopularityAudienceEngine();
+    result.popularityAudience = await engine.runRanking(db, workIds);
+  }
+
+  if (type === 'all' || type === 'full') {
+    const engine = new FullRankingEngine(db);
+    result.fullRanking = await engine.runRanking(db, workIds);
+  }
+
+  return jsonResponse(result, 200, headers);
+}
+
+async function getRankingValidation(db: D1Database, headers: Record<string, string>): Promise<Response> {
+  const workService = new WorkService(db);
+  const works = await workService.listWorks({ eligibilityStatus: 'approved' as any });
+  const workIds = works.map(w => w.id);
+
+  if (workIds.length === 0) {
+    return jsonResponse({ error: 'No approved works found. Import seed data first.' }, 400, headers);
+  }
+
+  const validationService = new RankingValidationService(db);
+
+  try {
+    const report = await validationService.generateReport(workIds);
+    const markdownReport = validationService.generateMarkdownReport(report);
+
+    return jsonResponse({
+      success: true,
+      report,
+      markdownReport,
+    }, 200, headers);
+  } catch (error) {
+    return jsonResponse({
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    }, 500, headers);
+  }
+}
+
+async function importSeedPoolBatch1Handler(db: D1Database, headers: Record<string, string>): Promise<Response> {
+  try {
+    const { importSeedPoolBatch1 } = await import('../scripts/import-seed-pool');
+    const result = await importSeedPoolBatch1(db);
+
+    return jsonResponse({
+      success: true,
+      result,
+    }, 200, headers);
+  } catch (error) {
+    return jsonResponse({
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    }, 500, headers);
+  }
 }

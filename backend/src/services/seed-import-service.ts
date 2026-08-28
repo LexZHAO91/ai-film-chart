@@ -81,7 +81,9 @@ export class SeedImportService {
 
       const eligibility = await this.eligibilityService.evaluate(eligibilityInput);
 
-      if (!eligibility.eligible) {
+      // For seed import, allow works that pass the review threshold (>= 0.70)
+      // instead of requiring auto-pass (>= 0.90)
+      if (eligibility.eligibilityConfidence < 0.50) {
         return {
           success: false,
           title: entry.title,

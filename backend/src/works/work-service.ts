@@ -236,9 +236,10 @@ export class WorkService {
    */
   async findPotentialDuplicates(title: string, creatorName?: string): Promise<Work[]> {
     const normalizedTitle = title.toLowerCase().trim();
+    // Use exact match instead of LIKE to avoid false positives
     const { results } = await this.db
-      .prepare('SELECT * FROM works WHERE LOWER(canonical_title) LIKE ?')
-      .bind(`%${normalizedTitle}%`)
+      .prepare('SELECT * FROM works WHERE LOWER(canonical_title) = ?')
+      .bind(normalizedTitle)
       .all();
 
     return (results || []).map(row => this.mapWorkRow(row as Record<string, unknown>));

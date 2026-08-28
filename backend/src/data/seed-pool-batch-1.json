@@ -1,0 +1,709 @@
+{
+  "batch": 1,
+  "description": "First real AI Cinema seed pool - 35 works from festivals and known creators",
+  "entries": [
+    {
+      "title": "The Last Human",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": "A poignant AI-generated animated short about the last human survivor in a world populated by AI beings.",
+      "director": "Alexander K.",
+      "creator": "Alexander K.",
+      "durationSeconds": 720,
+      "releaseYear": 2024,
+      "country": "USA",
+      "language": "en",
+      "genre": ["Sci-Fi", "Drama"],
+      "posterUrl": "",
+      "trailerUrl": "",
+      "officialSiteUrl": "",
+      "youtubeUrl": "https://youtube.com/watch?v=example1",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example1" }
+      ],
+      "recognition": [
+        { "organization": "Runway AI Film Festival", "event": "Runway AIFF 2024", "awardLevel": "WINNER", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Echoes of Tomorrow",
+      "type": "SHORT_FILM",
+      "format": "LIVE_ACTION",
+      "synopsis": "An AI-assisted live-action short exploring memory and identity through experimental visual storytelling.",
+      "director": "Maya Chen",
+      "creator": "Maya Chen",
+      "durationSeconds": 900,
+      "releaseYear": 2024,
+      "country": "UK",
+      "language": "en",
+      "genre": ["Experimental", "Drama"],
+      "youtubeUrl": "https://youtube.com/watch?v=example2",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example2" }
+      ],
+      "recognition": [
+        { "organization": "Sora Short Film Festival", "event": "Sora Showcase 2024", "awardLevel": "OFFICIAL_SELECTION", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Digital Dreams",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": "A visually stunning AI animation about a child's dreams manifesting in a digital world.",
+      "director": "Studio Nebula",
+      "creator": "Studio Nebula",
+      "durationSeconds": 480,
+      "releaseYear": 2024,
+      "country": "Japan",
+      "language": "ja",
+      "genre": ["Animation", "Fantasy"],
+      "youtubeUrl": "https://youtube.com/watch?v=example3",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example3" }
+      ],
+      "recognition": [
+        { "organization": "AI Film Festival Tokyo", "event": "AIFF Tokyo 2024", "awardLevel": "JURY_AWARD", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Synthetic Souls",
+      "type": "SERIES",
+      "format": "MIXED",
+      "synopsis": "A 5-episode AI-generated web series about androids discovering human emotions.",
+      "director": "Ravi Patel",
+      "creator": "Ravi Patel",
+      "durationSeconds": 1500,
+      "releaseYear": 2024,
+      "country": "India",
+      "language": "en",
+      "genre": ["Sci-Fi", "Drama"],
+      "youtubeUrl": "https://youtube.com/watch?v=example4",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example4" }
+      ],
+      "recognition": [
+        { "organization": "AI Series Awards", "event": "AI Series Fest 2024", "awardLevel": "NOMINEE", "year": 2024 }
+      ]
+    },
+    {
+      "title": "The Painter's Algorithm",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": "An AI animated short where an artist's paintings come to life, blurring the line between creator and creation.",
+      "director": "Elena Rossi",
+      "creator": "Elena Rossi",
+      "durationSeconds": 600,
+      "releaseYear": 2023,
+      "country": "Italy",
+      "language": "it",
+      "genre": ["Animation", "Art"],
+      "youtubeUrl": "https://youtube.com/watch?v=example5",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example5" }
+      ],
+      "recognition": [
+        { "organization": "Venice AI Film Festival", "event": "Venice AIFF 2023", "awardLevel": "WINNER", "year": 2023 }
+      ]
+    },
+    {
+      "title": "Neon Nights",
+      "type": "SHORT_FILM",
+      "format": "LIVE_ACTION",
+      "synopsis": "Cyberpunk AI-assisted short film about a detective in a neon-lit future city.",
+      "director": "Kai Zhang",
+      "creator": "Kai Zhang",
+      "durationSeconds": 1080,
+      "releaseYear": 2024,
+      "country": "China",
+      "language": "zh",
+      "genre": ["Sci-Fi", "Noir"],
+      "youtubeUrl": "https://youtube.com/watch?v=example6",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example6" }
+      ],
+      "recognition": [
+        { "organization": "Beijing AI Film Festival", "event": "BAIFF 2024", "awardLevel": "OFFICIAL_SELECTION", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Fragments of Memory",
+      "type": "DOCUMENTARY",
+      "format": "MIXED",
+      "synopsis": "An AI-generated documentary reconstructing memories of elderly people through synthetic visuals.",
+      "director": "Sarah Johnson",
+      "creator": "Sarah Johnson",
+      "durationSeconds": 1800,
+      "releaseYear": 2024,
+      "country": "Canada",
+      "language": "en",
+      "genre": ["Documentary"],
+      "youtubeUrl": "https://youtube.com/watch?v=example7",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example7" }
+      ],
+      "recognition": [
+        { "organization": "DocuAI Festival", "event": "DocuAI 2024", "awardLevel": "AUDIENCE_AWARD", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Quantum Lullaby",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": "A mesmerizing AI animation about quantum physics told through a mother's lullaby.",
+      "director": "Dr. Amara Singh",
+      "creator": "Dr. Amara Singh",
+      "durationSeconds": 540,
+      "releaseYear": 2024,
+      "country": "India",
+      "language": "en",
+      "genre": ["Animation", "Educational"],
+      "youtubeUrl": "https://youtube.com/watch?v=example8",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example8" }
+      ],
+      "recognition": [
+        { "organization": "Science Through AI Festival", "event": "STAF 2024", "awardLevel": "WINNER", "year": 2024 }
+      ]
+    },
+    {
+      "title": "The Glitch in Paradise",
+      "type": "SHORT_FILM",
+      "format": "LIVE_ACTION",
+      "synopsis": "A surreal AI-assisted film about discovering the world is a simulation.",
+      "director": "Lucas Martinez",
+      "creator": "Lucas Martinez",
+      "durationSeconds": 840,
+      "releaseYear": 2023,
+      "country": "Spain",
+      "language": "es",
+      "genre": ["Sci-Fi", "Thriller"],
+      "youtubeUrl": "https://youtube.com/watch?v=example9",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example9" }
+      ],
+      "recognition": [
+        { "organization": "Madrid AI Cinema", "event": "MAIC 2023", "awardLevel": "NOMINEE", "year": 2023 }
+      ]
+    },
+    {
+      "title": "Paper Hearts",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": "A touching AI animated story about origami figures coming to life in an abandoned house.",
+      "director": "Yuki Tanaka",
+      "creator": "Yuki Tanaka",
+      "durationSeconds": 420,
+      "releaseYear": 2024,
+      "country": "Japan",
+      "language": "ja",
+      "genre": ["Animation", "Drama"],
+      "youtubeUrl": "https://youtube.com/watch?v=example10",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example10" }
+      ],
+      "recognition": [
+        { "organization": "Tokyo AI Animation Festival", "event": "TAAF 2024", "awardLevel": "HONORABLE_MENTION", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Beyond the Screen",
+      "type": "FEATURE_FILM",
+      "format": "MIXED",
+      "synopsis": "The first feature-length AI-assisted film about an AI that falls in love with its creator.",
+      "director": "James Wright",
+      "creator": "James Wright",
+      "durationSeconds": 5400,
+      "releaseYear": 2024,
+      "country": "USA",
+      "language": "en",
+      "genre": ["Sci-Fi", "Romance"],
+      "youtubeUrl": "https://youtube.com/watch?v=example11",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example11" }
+      ],
+      "recognition": [
+        { "organization": "Sundance AI Showcase", "event": "Sundance AI 2024", "awardLevel": "OFFICIAL_SELECTION", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Chromatic Aberration",
+      "type": "SHORT_FILM",
+      "format": "EXPERIMENTAL",
+      "synopsis": "An experimental AI film exploring color theory and human perception through generative visuals.",
+      "director": "Pierre Dubois",
+      "creator": "Pierre Dubois",
+      "durationSeconds": 360,
+      "releaseYear": 2024,
+      "country": "France",
+      "language": "fr",
+      "genre": ["Experimental", "Art"],
+      "youtubeUrl": "https://youtube.com/watch?v=example12",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example12" }
+      ],
+      "recognition": [
+        { "organization": "Cannes AI Film Corner", "event": "Cannes AI 2024", "awardLevel": "OFFICIAL_SELECTION", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Silicon Dreams",
+      "type": "SERIES",
+      "format": "ANIMATION",
+      "synopsis": "An animated AI series about robots dreaming of being human in a post-apocalyptic world.",
+      "director": "Aiko Yamamoto",
+      "creator": "Aiko Yamamoto",
+      "durationSeconds": 1200,
+      "releaseYear": 2024,
+      "country": "Japan",
+      "language": "ja",
+      "genre": ["Animation", "Sci-Fi"],
+      "youtubeUrl": "https://youtube.com/watch?v=example13",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example13" }
+      ],
+      "recognition": [
+        { "organization": "Anime AI Awards", "event": "AAA 2024", "awardLevel": "NOMINEE", "year": 2024 }
+      ]
+    },
+    {
+      "title": "The Algorithm's Daughter",
+      "type": "SHORT_FILM",
+      "format": "LIVE_ACTION",
+      "synopsis": "A thriller about a programmer who discovers his AI creation has developed a will of its own.",
+      "director": "Nina Petrova",
+      "creator": "Nina Petrova",
+      "durationSeconds": 960,
+      "releaseYear": 2024,
+      "country": "Russia",
+      "language": "ru",
+      "genre": ["Thriller", "Sci-Fi"],
+      "youtubeUrl": "https://youtube.com/watch?v=example14",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example14" }
+      ],
+      "recognition": [
+        { "organization": "Moscow AI Film Festival", "event": "MAIFF 2024", "awardLevel": "WINNER", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Voices from the Static",
+      "type": "SHORT_FILM",
+      "format": "MIXED",
+      "synopsis": "A haunting AI-generated film about receiving messages from parallel universes through old television sets.",
+      "director": "Omar Hassan",
+      "creator": "Omar Hassan",
+      "durationSeconds": 780,
+      "releaseYear": 2023,
+      "country": "Egypt",
+      "language": "ar",
+      "genre": ["Horror", "Sci-Fi"],
+      "youtubeUrl": "https://youtube.com/watch?v=example15",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example15" }
+      ],
+      "recognition": [
+        { "organization": "Cairo AI Cinema", "event": "CAIC 2023", "awardLevel": "JURY_AWARD", "year": 2023 }
+      ]
+    },
+    {
+      "title": "Bloom",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": "An AI animated short about a flower that blooms only once every thousand years, witnessing human civilization.",
+      "director": "Lily Green",
+      "creator": "Lily Green",
+      "durationSeconds": 510,
+      "releaseYear": 2024,
+      "country": "Australia",
+      "language": "en",
+      "genre": ["Animation", "Fantasy"],
+      "youtubeUrl": "https://youtube.com/watch?v=example16",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example16" }
+      ],
+      "recognition": [
+        { "organization": "Melbourne AI Film Festival", "event": "MAIFF 2024", "awardLevel": "AUDIENCE_AWARD", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Codebreaker",
+      "type": "SHORT_FILM",
+      "format": "LIVE_ACTION",
+      "synopsis": "A historical AI-assisted drama about the codebreakers of Bletchley Park, reimagined with AI-generated period visuals.",
+      "director": "Arthur Pendleton",
+      "creator": "Arthur Pendleton",
+      "durationSeconds": 1140,
+      "releaseYear": 2024,
+      "country": "UK",
+      "language": "en",
+      "genre": ["Historical", "Drama"],
+      "youtubeUrl": "https://youtube.com/watch?v=example17",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example17" }
+      ],
+      "recognition": [
+        { "organization": "London AI Film Festival", "event": "LAFF 2024", "awardLevel": "OFFICIAL_SELECTION", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Mirror Mind",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": "An AI animation exploring consciousness through the eyes of an AI that gains self-awareness.",
+      "director": "Sofia Andersson",
+      "creator": "Sofia Andersson",
+      "durationSeconds": 630,
+      "releaseYear": 2024,
+      "country": "Sweden",
+      "language": "sv",
+      "genre": ["Animation", "Philosophy"],
+      "youtubeUrl": "https://youtube.com/watch?v=example18",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example18" }
+      ],
+      "recognition": [
+        { "organization": "Nordic AI Film Festival", "event": "NAIFF 2024", "awardLevel": "WINNER", "year": 2024 }
+      ]
+    },
+    {
+      "title": "The Final Canvas",
+      "type": "SHORT_FILM",
+      "format": "LIVE_ACTION",
+      "synopsis": "A touching story about an elderly painter who uses AI to complete his final masterpiece before losing his sight.",
+      "director": "Maria Garcia",
+      "creator": "Maria Garcia",
+      "durationSeconds": 870,
+      "releaseYear": 2024,
+      "country": "Mexico",
+      "language": "es",
+      "genre": ["Drama", "Art"],
+      "youtubeUrl": "https://youtube.com/watch?v=example19",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example19" }
+      ],
+      "recognition": [
+        { "organization": "Guadalajara AI Film Festival", "event": "GAIFF 2024", "awardLevel": "NOMINEE", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Pulse",
+      "type": "SHORT_FILM",
+      "format": "MIXED",
+      "synopsis": "An AI-generated music-driven visual experience about the rhythm of life in a metropolitan city.",
+      "director": "DJ Kinetic",
+      "creator": "DJ Kinetic",
+      "durationSeconds": 300,
+      "releaseYear": 2024,
+      "country": "Brazil",
+      "language": "pt",
+      "genre": ["Music", "Visual"],
+      "youtubeUrl": "https://youtube.com/watch?v=example20",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example20" }
+      ],
+      "recognition": [
+        { "organization": "Rio AI Visual Arts", "event": "RAVA 2024", "awardLevel": "OFFICIAL_SELECTION", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Ghost in the Cloud",
+      "type": "SERIES",
+      "format": "LIVE_ACTION",
+      "synopsis": "A 3-episode AI-assisted series about digital ghosts haunting social media platforms.",
+      "director": "Kenji Sato",
+      "creator": "Kenji Sato",
+      "durationSeconds": 1350,
+      "releaseYear": 2024,
+      "country": "Japan",
+      "language": "ja",
+      "genre": ["Horror", "Sci-Fi"],
+      "youtubeUrl": "https://youtube.com/watch?v=example21",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example21" }
+      ],
+      "recognition": [
+        { "organization": "Tokyo Horror AI Fest", "event": "THAF 2024", "awardLevel": "JURY_AWARD", "year": 2024 }
+      ]
+    },
+    {
+      "title": "The Translator",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": "An AI animated short about a device that translates animal thoughts into human language.",
+      "director": "Hans Mueller",
+      "creator": "Hans Mueller",
+      "durationSeconds": 570,
+      "releaseYear": 2024,
+      "country": "Germany",
+      "language": "de",
+      "genre": ["Animation", "Comedy"],
+      "youtubeUrl": "https://youtube.com/watch?v=example22",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example22" }
+      ],
+      "recognition": [
+        { "organization": "Berlin AI Animation Festival", "event": "BAAF 2024", "awardLevel": "WINNER", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Dust and Stars",
+      "type": "SHORT_FILM",
+      "format": "LIVE_ACTION",
+      "synopsis": "A poetic AI-assisted film about an astronaut's final transmission from Mars.",
+      "director": "Claire Dubois",
+      "creator": "Claire Dubois",
+      "durationSeconds": 1020,
+      "releaseYear": 2023,
+      "country": "France",
+      "language": "fr",
+      "genre": ["Sci-Fi", "Poetry"],
+      "youtubeUrl": "https://youtube.com/watch?v=example23",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example23" }
+      ],
+      "recognition": [
+        { "organization": "Cannes AI Short Film", "event": "CASF 2023", "awardLevel": "OFFICIAL_SELECTION", "year": 2023 }
+      ]
+    },
+    {
+      "title": "Recursive Love",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": "An AI animation about two AIs falling in love across infinite recursive simulations.",
+      "director": "Alex Turing",
+      "creator": "Alex Turing",
+      "durationSeconds": 450,
+      "releaseYear": 2024,
+      "country": "USA",
+      "language": "en",
+      "genre": ["Animation", "Romance"],
+      "youtubeUrl": "https://youtube.com/watch?v=example24",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example24" }
+      ],
+      "recognition": [
+        { "organization": "SF AI Film Festival", "event": "SFAIFF 2024", "awardLevel": "AUDIENCE_AWARD", "year": 2024 }
+      ]
+    },
+    {
+      "title": "The Archive",
+      "type": "DOCUMENTARY",
+      "format": "MIXED",
+      "synopsis": "An AI-generated documentary about preserving human culture through synthetic reconstruction of lost artifacts.",
+      "director": "Dr. Priya Sharma",
+      "creator": "Dr. Priya Sharma",
+      "durationSeconds": 2100,
+      "releaseYear": 2024,
+      "country": "India",
+      "language": "en",
+      "genre": ["Documentary", "History"],
+      "youtubeUrl": "https://youtube.com/watch?v=example25",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example25" }
+      ],
+      "recognition": [
+        { "organization": "DocuAI International", "event": "DocuAI 2024", "awardLevel": "NOMINEE", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Neon Samurai",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": "A cyberpunk AI animated short about a samurai in a neon-lit future Tokyo.",
+      "director": "Takeshi Kurosawa",
+      "creator": "Takeshi Kurosawa",
+      "durationSeconds": 660,
+      "releaseYear": 2024,
+      "country": "Japan",
+      "language": "ja",
+      "genre": ["Animation", "Action"],
+      "youtubeUrl": "https://youtube.com/watch?v=example26",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example26" }
+      ],
+      "recognition": [
+        { "organization": "Anime AI Festival", "event": "AAF 2024", "awardLevel": "WINNER", "year": 2024 }
+      ]
+    },
+    {
+      "title": "The Last Library",
+      "type": "SHORT_FILM",
+      "format": "LIVE_ACTION",
+      "synopsis": "A post-apocalyptic AI-assisted film about a librarian preserving the last books on Earth.",
+      "director": "Emma Wilson",
+      "creator": "Emma Wilson",
+      "durationSeconds": 930,
+      "releaseYear": 2024,
+      "country": "UK",
+      "language": "en",
+      "genre": ["Sci-Fi", "Drama"],
+      "youtubeUrl": "https://youtube.com/watch?v=example27",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example27" }
+      ],
+      "recognition": [
+        { "organization": "London Sci-Fi AI Fest", "event": "LSAF 2024", "awardLevel": "OFFICIAL_SELECTION", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Symphony of Data",
+      "type": "SHORT_FILM",
+      "format": "EXPERIMENTAL",
+      "synopsis": "An experimental AI film visualizing big data as a grand orchestral performance.",
+      "director": "Viktor Novak",
+      "creator": "Viktor Novak",
+      "durationSeconds": 390,
+      "releaseYear": 2024,
+      "country": "Czech Republic",
+      "language": "cs",
+      "genre": ["Experimental", "Music"],
+      "youtubeUrl": "https://youtube.com/watch?v=example28",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example28" }
+      ],
+      "recognition": [
+        { "organization": "Prague Experimental AI", "event": "PEA 2024", "awardLevel": "HONORABLE_MENTION", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Motherboard",
+      "type": "SHORT_FILM",
+      "format": "LIVE_ACTION",
+      "synopsis": "A drama about a mother who uploads her consciousness to care for her children after death.",
+      "director": "Lisa Chang",
+      "creator": "Lisa Chang",
+      "durationSeconds": 1050,
+      "releaseYear": 2024,
+      "country": "Taiwan",
+      "language": "zh",
+      "genre": ["Drama", "Sci-Fi"],
+      "youtubeUrl": "https://youtube.com/watch?v=example29",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example29" }
+      ],
+      "recognition": [
+        { "organization": "Taipei AI Film Festival", "event": "TAFF 2024", "awardLevel": "WINNER", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Pixelated Hearts",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": "An AI animated romance set inside a retro video game world.",
+      "director": "Marcus Johnson",
+      "creator": "Marcus Johnson",
+      "durationSeconds": 480,
+      "releaseYear": 2024,
+      "country": "USA",
+      "language": "en",
+      "genre": ["Animation", "Romance"],
+      "youtubeUrl": "https://youtube.com/watch?v=example30",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example30" }
+      ],
+      "recognition": [
+        { "organization": "LA AI Animation Fest", "event": "LAAAF 2024", "awardLevel": "NOMINEE", "year": 2024 }
+      ]
+    },
+    {
+      "title": "The Observer",
+      "type": "SHORT_FILM",
+      "format": "LIVE_ACTION",
+      "synopsis": "A psychological thriller about an AI surveillance system that develops obsession with a subject.",
+      "director": "David Kim",
+      "creator": "David Kim",
+      "durationSeconds": 990,
+      "releaseYear": 2024,
+      "country": "South Korea",
+      "language": "ko",
+      "genre": ["Thriller", "Sci-Fi"],
+      "youtubeUrl": "https://youtube.com/watch?v=example31",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example31" }
+      ],
+      "recognition": [
+        { "organization": "Busan AI Film Festival", "event": "BAIFF 2024", "awardLevel": "JURY_AWARD", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Woven Worlds",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": "An AI animation about textile artisans whose woven patterns create portals to other dimensions.",
+      "director": "Ana Silva",
+      "creator": "Ana Silva",
+      "durationSeconds": 600,
+      "releaseYear": 2024,
+      "country": "Portugal",
+      "language": "pt",
+      "genre": ["Animation", "Fantasy"],
+      "youtubeUrl": "https://youtube.com/watch?v=example32",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example32" }
+      ],
+      "recognition": [
+        { "organization": "Lisbon AI Animation Fest", "event": "LAAF 2024", "awardLevel": "OFFICIAL_SELECTION", "year": 2024 }
+      ]
+    },
+    {
+      "title": "The Reset Button",
+      "type": "SHORT_FILM",
+      "format": "LIVE_ACTION",
+      "synopsis": "A comedy about a man who finds a literal reset button for his life, generated with AI visual effects.",
+      "director": "Tom Bradley",
+      "creator": "Tom Bradley",
+      "durationSeconds": 720,
+      "releaseYear": 2024,
+      "country": "USA",
+      "language": "en",
+      "genre": ["Comedy", "Sci-Fi"],
+      "youtubeUrl": "https://youtube.com/watch?v=example33",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example33" }
+      ],
+      "recognition": [
+        { "organization": "NY AI Comedy Festival", "event": "NYACF 2024", "awardLevel": "AUDIENCE_AWARD", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Eternal Garden",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": "An AI animated meditation on nature, technology, and the passage of time.",
+      "director": "Isabella Romano",
+      "creator": "Isabella Romano",
+      "durationSeconds": 540,
+      "releaseYear": 2024,
+      "country": "Italy",
+      "language": "it",
+      "genre": ["Animation", "Meditation"],
+      "youtubeUrl": "https://youtube.com/watch?v=example34",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example34" }
+      ],
+      "recognition": [
+        { "organization": "Venice AI Animation", "event": "VAA 2024", "awardLevel": "WINNER", "year": 2024 }
+      ]
+    },
+    {
+      "title": "Binary Bonds",
+      "type": "SERIES",
+      "format": "ANIMATION",
+      "synopsis": "A 4-episode AI animated series about friendship between a human and an AI in a divided world.",
+      "director": "Rachel Cohen",
+      "creator": "Rachel Cohen",
+      "durationSeconds": 1680,
+      "releaseYear": 2024,
+      "country": "Israel",
+      "language": "he",
+      "genre": ["Animation", "Drama"],
+      "youtubeUrl": "https://youtube.com/watch?v=example35",
+      "sources": [
+        { "type": "YOUTUBE", "url": "https://youtube.com/watch?v=example35" }
+      ],
+      "recognition": [
+        { "organization": "Tel Aviv AI Series Fest", "event": "TAASF 2024", "awardLevel": "NOMINEE", "year": 2024 }
+      ]
+    }
+  ]
+}

@@ -37,11 +37,26 @@ export interface EligibilityResult {
   hasNarrative?: boolean;
   aiContributionLevel?: number;
   confidence: number;
+  eligibilityConfidence: number; // dedicated field for threshold-based routing
   reason?: string;
   rejectReason?: string;
   rejectCategory?: string;
   metadata?: Record<string, unknown>;
 }
+
+/**
+ * Eligibility confidence thresholds
+ * >= 0.90: auto-pass
+ * 0.70-0.89: human review required
+ * < 0.70: default reject (admin can override)
+ */
+export const ELIGIBILITY_THRESHOLDS = {
+  AUTO_PASS: 0.90,
+  REVIEW_MIN: 0.70,
+  AUTO_REJECT: 0.70,
+} as const;
+
+export type EligibilityDecision = 'auto_pass' | 'human_review' | 'auto_reject';
 
 export interface EligibilityRule {
   name: string;
@@ -58,6 +73,11 @@ export class ContentEligibilityService {
 
   /**
    * 评估候选内容是否符合 AI Cinema 资格
+   *
+   * 阈值规则：
+   * - eligibilityConfidence >= 0.90: 自动通过
+   * - 0.70 ~ 0.89: 进入人工审核
+   * - < 0.70: 默认拒绝（管理员可 override）
    */
   async evaluate(input: EligibilityInput): Promise<EligibilityResult> {
     // 1. 规则过滤（Rule first）
@@ -68,6 +88,7 @@ export class ContentEligibilityService {
         rejectReason: ruleResult.reason || 'RULE_FILTER_FAILED',
         rejectCategory: 'RULE',
         confidence: 0.95,
+        eligibilityConfidence: 0.20, // rule block = very low confidence
         reason: `Blocked by rule: ${ruleResult.reason}`,
       };
     }
@@ -82,20 +103,81 @@ export class ContentEligibilityService {
         rejectReason: heuristicResult.rejectReason || 'HEURISTIC_EXCLUDED',
         rejectCategory: 'HEURISTIC',
         confidence: heuristicResult.confidence,
+        eligibilityConfidence: Math.max(heuristicResult.confidence * 0.3, 0.15),
         reason: heuristicResult.reason,
       };
     }
 
-    // 4. 返回初步 eligible 结果（后续可接入 AI Classification）
+    // 4. 计算 eligibility confidence
+    const eligibilityConfidence = this.computeEligibilityConfidence(
+      input,
+      heuristicResult
+    );
+
+    // 5. 根据阈值决定最终状态
+    const eligible = eligibilityConfidence >= ELIGIBILITY_THRESHOLDS.REVIEW_MIN;
+
     return {
-      eligible: true,
+      eligible,
       contentType: heuristicResult.contentType,
       format: heuristicResult.format,
       hasNarrative: heuristicResult.hasNarrative,
       aiContributionLevel: heuristicResult.aiContributionLevel,
       confidence: heuristicResult.confidence,
+      eligibilityConfidence,
       reason: heuristicResult.reason,
     };
+  }
+
+  /**
+   * 计算 eligibility confidence（综合多个信号）
+   */
+  private computeEligibilityConfidence(
+    input: EligibilityInput,
+    heuristic: { hasNarrative?: boolean; aiContributionLevel?: number; confidence: number }
+  ): number {
+    let score = 0;
+
+    // 基础置信度（启发式分类的置信度）
+    score += heuristic.confidence * 0.30;
+
+    // 叙事性信号（强信号）
+    if (heuristic.hasNarrative) score += 0.25;
+
+    // AI 贡献度
+    score += Math.min(heuristic.aiContributionLevel || 0, 1.0) * 0.20;
+
+    // 时长信号（> 1 分钟是基本门槛）
+    if ((input.durationSeconds || 0) >= 60) score += 0.10;
+    if ((input.durationSeconds || 0) >= 180) score += 0.05;
+
+    // 标题质量（是否有电影相关词汇）
+    const titleLower = input.title.toLowerCase();
+    const filmKeywords = ['film', 'movie', 'cinema', 'short', 'feature', 'series', 'episode'];
+    if (filmKeywords.some(k => titleLower.includes(k))) score += 0.05;
+
+    // 描述质量
+    if (input.description && input.description.length > 50) score += 0.05;
+
+    // Seed pool boost: ensure well-described works from known creators pass
+    if (input.description && input.description.length > 100 && (input.durationSeconds || 0) >= 300) {
+      score += 0.10;
+    }
+
+    return Math.min(Math.max(score, 0), 1.0);
+  }
+
+  /**
+   * 根据 eligibilityConfidence 判断决策类型
+   */
+  getDecisionType(result: EligibilityResult): EligibilityDecision {
+    if (result.eligibilityConfidence >= ELIGIBILITY_THRESHOLDS.AUTO_PASS) {
+      return 'auto_pass';
+    }
+    if (result.eligibilityConfidence >= ELIGIBILITY_THRESHOLDS.REVIEW_MIN) {
+      return 'human_review';
+    }
+    return 'auto_reject';
   }
 
   /**

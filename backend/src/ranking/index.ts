@@ -11,3 +11,14 @@ export type {
   ShadowRankingResult,
   RankingComparison,
 } from './shadow-ranking-engine';
+
+export {
+  PopularityOnlyEngine,
+  PopularityAudienceEngine,
+  FullRankingEngine,
+} from './experimental-ranking-engines';
+
+export type {
+  ExperimentalRankingInput,
+  ExperimentalRankingResult,
+} from './experimental-ranking-engines';
