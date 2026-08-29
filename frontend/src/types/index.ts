@@ -75,10 +75,26 @@ export interface RankingResponse {
   items: RankingSnapshotItem[];
 }
 
+export interface FilmScore {
+  final_score: number;
+  popularity_score: number;
+  momentum_score: number;
+  engagement_score: number;
+  audience_score: number;
+  quality_score: number;
+}
+
+export interface UserRating {
+  average: number;
+  count: number;
+}
+
 export interface FilmDetailResponse {
   film: Film;
   metrics: FilmMetrics | null;
   aiAnalysis: FilmAIAnalysis | null;
+  score: FilmScore | null;
+  userRating: UserRating | null;
 }
 
 export interface AdminDashboard {

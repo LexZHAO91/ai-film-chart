@@ -87,6 +87,14 @@ export async function handleApiRequest(request: Request, env: Env): Promise<Resp
       return await getFilms(env.DB, url, headers);
     }
 
+    // Public rating API (no auth required for visitors)
+    if (path.startsWith('/api/films/') && path.endsWith('/rate') && request.method === 'POST') {
+      const filmId = parseInt(path.split('/')[3] || '', 10);
+      if (!isNaN(filmId)) {
+        return await submitRating(env.DB, request, filmId, headers);
+      }
+    }
+
     // Admin API routes
     if (path.startsWith('/api/admin/')) {
       const authHeader = request.headers.get('Authorization');
@@ -553,11 +561,75 @@ async function getFilmDetail(db: D1Database, filmId: number, headers: Record<str
   const metrics = await filmModel.getLatestMetrics(filmId);
   const aiAnalysis = await filmModel.getLatestAIAnalysis(filmId);
 
+  // Get latest ranking score for this film
+  const { results: scoreResults } = await db
+    .prepare(`
+      SELECT final_score, popularity_score, momentum_score, engagement_score, audience_score, quality_score
+      FROM ranking_scores
+      WHERE film_id = ?
+      ORDER BY calculated_at DESC
+      LIMIT 1
+    `)
+    .bind(filmId)
+    .all<{ final_score: number; popularity_score: number; momentum_score: number; engagement_score: number; audience_score: number; quality_score: number }>();
+  const score = scoreResults?.[0] || null;
+
+  // Get average user rating
+  const { results: ratingResults } = await db
+    .prepare('SELECT AVG(rating) as avg_rating, COUNT(*) as count FROM ratings WHERE film_id = ?')
+    .bind(filmId)
+    .all<{ avg_rating: number; count: number }>();
+  const userRating = ratingResults?.[0] || null;
+
   return jsonResponse({
     film,
     metrics,
     aiAnalysis,
+    score,
+    userRating: userRating ? { average: userRating.avg_rating || 0, count: userRating.count } : null,
   }, 200, headers);
+}
+
+async function submitRating(db: D1Database, request: Request, filmId: number, headers: Record<string, string>): Promise<Response> {
+  try {
+    const body = await request.json() as { rating: number; userId?: string };
+    const rating = body.rating;
+
+    if (typeof rating !== 'number' || rating < 1 || rating > 5) {
+      return jsonResponse({ error: 'Rating must be between 1 and 5' }, 400, headers);
+    }
+
+    // Convert 1-5 rating to 0-10 scale for storage
+    const normalizedRating = rating * 2;
+
+    // Use IP-based anonymous user id if no userId provided
+    const userIdentifier = body.userId || `anon_${request.headers.get('CF-Connecting-IP') || 'unknown'}_${filmId}`;
+
+    // Insert or replace rating (allow re-rating)
+    await db.prepare(`
+      INSERT INTO ratings (user_id, film_id, rating, review)
+      VALUES (?, ?, ?, ?)
+      ON CONFLICT(user_id, film_id) DO UPDATE SET
+        rating = excluded.rating,
+        updated_at = CURRENT_TIMESTAMP
+    `).bind(userIdentifier, filmId, normalizedRating, '').run();
+
+    // Get updated average
+    const { results } = await db
+      .prepare('SELECT AVG(rating) as avg_rating, COUNT(*) as count FROM ratings WHERE film_id = ?')
+      .bind(filmId)
+      .all<{ avg_rating: number; count: number }>();
+
+    const avg = results?.[0];
+    return jsonResponse({
+      success: true,
+      rating,
+      average: avg ? (avg.avg_rating / 2).toFixed(1) : null,
+      count: avg?.count || 0,
+    }, 200, headers);
+  } catch (error) {
+    return jsonResponse({ error: 'Failed to submit rating' }, 500, headers);
+  }
 }
 
 async function getFilms(db: D1Database, url: URL, headers: Record<string, string>): Promise<Response> {

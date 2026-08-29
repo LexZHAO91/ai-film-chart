@@ -17,18 +17,26 @@ export function RankingList({ items, title, subtitle }: RankingListProps) {
           <p className="mt-1 text-sm text-gray-500">Updated every 3 days</p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {items.map((item) => (
             <Link
               key={item.film_id}
               to={`/film/${item.film_id}`}
-              className="flex items-center space-x-4 p-4 bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors"
+              className="flex items-center space-x-4 p-4 bg-gray-900 rounded-xl hover:bg-gray-800 transition-colors border border-gray-800 hover:border-gray-700"
             >
+              {/* Rank */}
               <div className="flex-shrink-0 w-12 text-center">
-                <span className="text-2xl font-bold text-gray-400">{item.rank}</span>
+                <span className={`text-2xl font-bold ${
+                  item.rank <= 3 ? 'text-yellow-400' :
+                  item.rank <= 10 ? 'text-gray-300' :
+                  'text-gray-500'
+                }`}>
+                  {item.rank}
+                </span>
               </div>
 
-              <div className="flex-shrink-0 w-24 h-16 bg-gray-800 rounded overflow-hidden">
+              {/* Thumbnail */}
+              <div className="flex-shrink-0 w-28 h-18 bg-gray-800 rounded-lg overflow-hidden">
                 {item.thumbnail_url ? (
                   <img
                     src={item.thumbnail_url}
@@ -45,7 +53,7 @@ export function RankingList({ items, title, subtitle }: RankingListProps) {
                         target.style.display = 'none';
                         const parent = target.parentElement;
                         if (parent) {
-                          parent.className = 'w-full h-full flex items-center justify-center text-gray-600 text-xs';
+                          parent.className = 'flex-shrink-0 w-28 h-18 bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center text-gray-600 text-xs';
                           parent.textContent = 'No Image';
                         }
                       }
@@ -58,12 +66,12 @@ export function RankingList({ items, title, subtitle }: RankingListProps) {
                 )}
               </div>
 
+              {/* Info */}
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-medium truncate">{item.film_title || 'Unknown'}</h3>
-                <div className="mt-1 flex items-center space-x-4 text-xs text-gray-500">
-                  <span>Score: {(item.score * 100).toFixed(1)}</span>
+                <h3 className="text-base font-medium truncate">{item.film_title || 'Unknown'}</h3>
+                <div className="mt-1 flex items-center space-x-3 text-xs text-gray-500">
                   {item.is_new && (
-                    <span className="text-green-400 font-medium">NEW</span>
+                    <span className="px-2 py-0.5 bg-green-900/50 text-green-400 rounded font-medium">NEW</span>
                   )}
                   {item.rank_change > 0 && (
                     <span className="text-green-400">↑ {item.rank_change}</span>
@@ -75,6 +83,18 @@ export function RankingList({ items, title, subtitle }: RankingListProps) {
                     <span className="text-gray-500">—</span>
                   )}
                 </div>
+              </div>
+
+              {/* Score Badge */}
+              <div className="flex-shrink-0 text-right">
+                <div className={`text-2xl font-bold ${
+                  item.score >= 0.7 ? 'text-yellow-400' :
+                  item.score >= 0.5 ? 'text-blue-400' :
+                  'text-gray-400'
+                }`}>
+                  {(item.score * 100).toFixed(1)}
+                </div>
+                <div className="text-xs text-gray-500">SCORE</div>
               </div>
             </Link>
           ))}

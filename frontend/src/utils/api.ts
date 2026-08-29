@@ -31,7 +31,11 @@ export const api = {
     if (params?.offset) searchParams.set('offset', String(params.offset));
     return fetchApi<{ films: unknown[] }>(`/api/films?${searchParams}`);
   },
-  getFilm: (id: number) => fetchApi<{ film: unknown; metrics: unknown; aiAnalysis: unknown }>(`/api/films/${id}`),
+  getFilm: (id: number) => fetchApi<{ film: unknown; metrics: unknown; aiAnalysis: unknown; score: unknown; userRating: unknown }>(`/api/films/${id}`),
+  submitRating: (filmId: number, rating: number) => fetchApi<{ success: boolean; rating: number; average: string; count: number }>(`/api/films/${filmId}/rate`, {
+    method: 'POST',
+    body: JSON.stringify({ rating }),
+  }),
 
   // Admin
   getDashboard: (token: string) => fetchApi<unknown>('/api/admin/dashboard', {
