@@ -191,7 +191,7 @@ export function AdminPage() {
   const [token, setToken] = useState(localStorage.getItem('adminToken') || '');
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('adminToken'));
   const [lang, setLang] = useState<'zh' | 'en'>('zh');
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'works'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'works' | 'discovered'>('dashboard');
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -206,6 +206,7 @@ const [editingWatchSource, setEditingWatchSource] = useState<{ workId: number; s
 const [viewingAuditLog, setViewingAuditLog] = useState<number | null>(null);
 const [auditLogs, setAuditLogs] = useState<any[]>([]);
 const [generatingPoster, setGeneratingPoster] = useState<number | null>(null);
+const [discoveredWorks, setDiscoveredWorks] = useState<any[]>([]);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -343,39 +344,22 @@ const [generatingPoster, setGeneratingPoster] = useState<number | null>(null);
     }
   };
 
-  const handleGenerateAllPosters = async () => {
-    if (!confirm('确定要为所有缺少海报的作品生成海报吗？这可能需要较长时间。')) return;
-    setLoading(true);
-    try {
-      const result = await adminApi.generateAllThumbnails(token);
-      if (result.success) {
-        showMessage(`海报生成完成：${result.result.generated} 成功, ${result.result.failed} 失败`);
-        loadWorks();
-      } else {
-        showMessage(result.error || '批量生成失败');
-      }
-    } catch {
-      showMessage('批量生成失败');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const handleRunCrawler = async () => {
-    if (!confirm('开始全网搜索真实的 AI 影视作品？这将自动从 YouTube 发现并导入真实作品。')) return;
+    if (!confirm(lang === 'zh' ? '开始全网搜索真实的 AI 影视作品？搜索结果将展示在"新发现"区域供你审核。' : 'Start crawling for real AI films? Results will be shown in "Discovered" tab for your review.')) return;
     setLoading(true);
     try {
       const result = await adminApi.runCrawler(token);
       if (result.success) {
         const r = result.result;
-        showMessage(`爬取完成：发现 ${r.total_discovered} 部，导入 ${r.total_imported} 部，跳过 ${r.total_skipped} 部`);
+        setDiscoveredWorks(r.results || []);
+        showMessage(`搜索完成：发现 ${r.total_discovered} 部作品，已导入 ${r.total_imported} 部`);
+        setActiveTab('discovered');
         loadWorks();
-        loadPhase35Status();
       } else {
-        showMessage(result.error || '爬取失败');
+        showMessage(result.error || '搜索失败');
       }
     } catch {
-      showMessage('爬取失败，请稍后重试');
+      showMessage('搜索失败，请稍后重试');
     } finally {
       setLoading(false);
     }
@@ -505,6 +489,7 @@ const [generatingPoster, setGeneratingPoster] = useState<number | null>(null);
           {([
             { key: 'dashboard', label: t('dashboard', lang) },
             { key: 'works', label: t('works', lang) },
+            { key: 'discovered', label: lang === 'zh' ? '✨ 新发现' : '✨ Discovered' },
           ] as const).map((tab) => (
             <button
               key={tab.key}
@@ -601,9 +586,6 @@ const [generatingPoster, setGeneratingPoster] = useState<number | null>(null);
               </div>
               <button onClick={loadWorks} className="px-5 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors whitespace-nowrap">
                 {t('refresh', lang)}
-              </button>
-              <button onClick={handleGenerateAllPosters} className="px-5 py-3 bg-purple-700 hover:bg-purple-600 rounded-lg transition-colors whitespace-nowrap">
-                {t('generateAllPosters', lang)}
               </button>
               <button onClick={handleRunCrawler} disabled={loading} className="px-5 py-3 bg-green-700 hover:bg-green-600 disabled:bg-green-900 rounded-lg transition-colors whitespace-nowrap">
                 {loading ? t('loading', lang) : '🔍 ' + (lang === 'zh' ? '全网搜索AI影片' : 'Crawl AI Films')}
@@ -738,6 +720,82 @@ const [generatingPoster, setGeneratingPoster] = useState<number | null>(null);
                   <button onClick={() => setEditingWatchSource({ workId: work.id })} className="mt-3 text-sm text-blue-400 hover:text-blue-300">
                     {t('addWatchSource', lang)}
                   </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ==================== DISCOVERED TAB ==================== */}
+        {activeTab === 'discovered' && (
+          <div className="space-y-4">
+            <div className="bg-blue-900/30 border border-blue-800 rounded-xl p-4">
+              <h3 className="font-bold text-lg mb-1">
+                {lang === 'zh' ? '✨ 新发现的作品' : '✨ Newly Discovered'}
+              </h3>
+              <p className="text-sm text-gray-400">
+                {lang === 'zh'
+                  ? `共发现 ${discoveredWorks.length} 部作品。这些作品已自动导入数据库，你可以在这里单独查看、编辑或删除。`
+                  : `${discoveredWorks.length} works found. They have been imported to the database. You can review, edit or delete them here.`}
+              </p>
+            </div>
+
+            {discoveredWorks.length === 0 && (
+              <div className="text-center py-12 text-gray-500 bg-gray-900 rounded-xl">
+                {lang === 'zh' ? '暂无新发现，点击"全网搜索AI影片"开始搜索' : 'No discoveries yet. Click "Crawl AI Films" to start searching.'}
+              </div>
+            )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {discoveredWorks.map((work, idx) => (
+                <div
+                  key={idx}
+                  className="bg-gray-900 rounded-xl overflow-hidden border border-gray-800 hover:border-gray-700 transition-colors"
+                >
+                  <div className="relative">
+                    {work.poster_url ? (
+                      <img
+                        src={work.poster_url}
+                        alt={work.title}
+                        className="w-full h-48 object-cover"
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.onerror = null;
+                          target.src = work.poster_url.replace('hqdefault.jpg', 'default.jpg');
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-48 bg-gray-800 flex items-center justify-center text-gray-600 text-4xl">🎬</div>
+                    )}
+                    <div className="absolute top-2 right-2 px-2 py-1 bg-black/70 rounded text-xs text-green-400">
+                      {lang === 'zh' ? '已导入' : 'Imported'}
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <h4 className="font-bold text-base mb-1 truncate">{work.title}</h4>
+                    <p className="text-sm text-gray-400 mb-2">{work.creator}</p>
+                    {work.synopsis && (
+                      <p className="text-xs text-gray-500 mb-3 line-clamp-2">{work.synopsis}</p>
+                    )}
+                    <div className="flex items-center gap-2">
+                      <a
+                        href={work.watch_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 px-3 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm text-center transition-colors"
+                      >
+                        ▶ {lang === 'zh' ? '观看' : 'Watch'}
+                      </a>
+                      <button
+                        onClick={() => loadWorks().then(() => setActiveTab('works'))}
+                        className="px-3 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition-colors"
+                      >
+                        {t('edit', lang)}
+                      </button>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
