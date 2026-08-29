@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { api } from '../utils/api';
+import { useI18n } from '../i18n';
 import type { FilmDetailResponse } from '../types';
 
 function StarRating({
@@ -64,6 +65,7 @@ function ScoreBar({ label, value, color }: { label: string; value: number; color
 
 export function FilmDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const { t, lang } = useI18n();
   const [data, setData] = useState<FilmDetailResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -91,7 +93,6 @@ export function FilmDetailPage() {
       const result = await api.submitRating(parseInt(id, 10), rating);
       setUserRating(rating);
       setRatingSubmitted(true);
-      // Update local userRating data
       if (data) {
         setData({
           ...data,
@@ -102,7 +103,7 @@ export function FilmDetailPage() {
         });
       }
     } catch {
-      alert('评分提交失败，请稍后重试');
+      alert(t('detail.ratingFailed') || 'Rating failed, please try again');
     } finally {
       setRatingLoading(false);
     }
@@ -111,7 +112,7 @@ export function FilmDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
-        <div className="text-lg">Loading...</div>
+        <div className="text-lg">{t('home.loading')}</div>
       </div>
     );
   }
@@ -119,7 +120,7 @@ export function FilmDetailPage() {
   if (error || !data) {
     return (
       <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
-        <div className="text-lg text-red-400">Error: {error || 'Film not found'}</div>
+        <div className="text-lg text-red-400">{t('home.error')}: {error || t('detail.unknown')}</div>
       </div>
     );
   }
@@ -132,14 +133,15 @@ export function FilmDetailPage() {
   const durationSec = film.duration_seconds % 60;
   const durationText = film.duration_seconds > 0
     ? `${durationMin}:${durationSec.toString().padStart(2, '0')}`
-    : 'Unknown';
+    : t('detail.unknown');
 
   // Format published date
-  let publishedText = 'Unknown';
+  let publishedText = t('detail.unknown');
   if (film.published_at) {
     const d = new Date(film.published_at);
     if (!isNaN(d.getTime())) {
-      publishedText = d.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' });
+      const locale = lang === 'zh' ? 'zh-CN' : lang === 'es' ? 'es-ES' : lang === 'fr' ? 'fr-FR' : lang === 'ar' ? 'ar-SA' : 'en-US';
+      publishedText = d.toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
     }
   }
 
@@ -148,7 +150,7 @@ export function FilmDetailPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Back link */}
         <Link to="/" className="text-sm text-gray-400 hover:text-white mb-6 inline-block">
-          ← Back to Rankings
+          {t('detail.back')}
         </Link>
 
         {/* Hero Section */}
@@ -175,7 +177,7 @@ export function FilmDetailPage() {
                   }}
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center text-gray-600 text-4xl">🎬</div>
+                <div className="w-full h-full flex items-center justify-center text-gray-600 text-4xl">{t('detail.noImage')}</div>
               )}
             </div>
 
@@ -186,7 +188,7 @@ export function FilmDetailPage() {
                 rel="noopener noreferrer"
                 className="mt-4 block w-full text-center py-3 bg-red-600 hover:bg-red-700 rounded-xl font-medium transition-colors shadow-lg"
               >
-                ▶ Watch on YouTube
+                {t('detail.watch')}
               </a>
             )}
           </div>
@@ -195,7 +197,7 @@ export function FilmDetailPage() {
           <div className="md:col-span-2 space-y-5">
             <div>
               <h1 className="text-3xl font-bold tracking-tight">{film.title}</h1>
-              <p className="mt-2 text-gray-400 text-lg">{film.channel_name || 'Unknown Creator'}</p>
+              <p className="mt-2 text-gray-400 text-lg">{film.channel_name || t('detail.unknown')}</p>
             </div>
 
             {/* Score Badge */}
@@ -204,14 +206,14 @@ export function FilmDetailPage() {
                 <div className="flex items-center gap-6">
                   <div className="text-center">
                     <div className="text-4xl font-bold text-white">{(score.final_score * 100).toFixed(1)}</div>
-                    <div className="text-xs text-blue-300 mt-1">AI CHART SCORE</div>
+                    <div className="text-xs text-blue-300 mt-1">{t('detail.aiChartScore')}</div>
                   </div>
                   <div className="flex-1 space-y-2">
-                    <ScoreBar label="Popularity" value={score.popularity_score} color="bg-blue-500" />
-                    <ScoreBar label="Momentum" value={score.momentum_score} color="bg-green-500" />
-                    <ScoreBar label="Engagement" value={score.engagement_score} color="bg-purple-500" />
-                    <ScoreBar label="Audience" value={score.audience_score} color="bg-yellow-500" />
-                    <ScoreBar label="Quality" value={score.quality_score} color="bg-red-500" />
+                    <ScoreBar label={t('detail.popularity')} value={score.popularity_score} color="bg-blue-500" />
+                    <ScoreBar label={t('detail.momentum')} value={score.momentum_score} color="bg-green-500" />
+                    <ScoreBar label={t('detail.engagement')} value={score.engagement_score} color="bg-purple-500" />
+                    <ScoreBar label={t('detail.audience')} value={score.audience_score} color="bg-yellow-500" />
+                    <ScoreBar label={t('detail.quality')} value={score.quality_score} color="bg-red-500" />
                   </div>
                 </div>
               </div>
@@ -220,26 +222,26 @@ export function FilmDetailPage() {
             {/* User Rating */}
             <div className="bg-gray-900 rounded-xl p-5 border border-gray-800">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="font-semibold text-lg">观众评分</h3>
+                <h3 className="font-semibold text-lg">{t('detail.userRating')}</h3>
                 {avgUserRating && avgUserRating.count > 0 && (
                   <div className="text-sm text-gray-400">
-                    平均 <span className="text-yellow-400 font-bold text-lg">{(avgUserRating.average / 2).toFixed(1)}</span> / 5
-                    <span className="ml-2">({avgUserRating.count} 人评分)</span>
+                    {t('detail.avg')} <span className="text-yellow-400 font-bold text-lg">{(avgUserRating.average / 2).toFixed(1)}</span> / 5
+                    <span className="ml-2">({avgUserRating.count} {t('detail.people')})</span>
                   </div>
                 )}
               </div>
 
               {ratingSubmitted ? (
                 <div className="text-center py-3">
-                  <div className="text-green-400 text-lg mb-2">✓ 评分已提交！</div>
+                  <div className="text-green-400 text-lg mb-2">{t('detail.ratingSubmitted')}</div>
                   <StarRating value={userRating} interactive={false} />
-                  <p className="text-sm text-gray-500 mt-2">你打了 {userRating} 星</p>
+                  <p className="text-sm text-gray-500 mt-2">{t('detail.yourRating')} {userRating} {t('detail.stars')}</p>
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <p className="text-sm text-gray-500">点击星星为这部影片打分（1-5星）：</p>
+                  <p className="text-sm text-gray-500">{t('detail.ratingHint')}</p>
                   <StarRating value={userRating} onChange={handleRate} />
-                  {ratingLoading && <p className="text-sm text-gray-500">提交中...</p>}
+                  {ratingLoading && <p className="text-sm text-gray-500">{t('detail.submitting')}</p>}
                 </div>
               )}
             </div>
@@ -250,30 +252,30 @@ export function FilmDetailPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
           {/* Basic Info */}
           <div className="bg-gray-900 rounded-xl p-5 border border-gray-800">
-            <h2 className="text-lg font-semibold mb-4">影片信息</h2>
+            <h2 className="text-lg font-semibold mb-4">{t('detail.filmInfo')}</h2>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between py-2 border-b border-gray-800">
-                <span className="text-gray-400">发布时间</span>
+                <span className="text-gray-400">{t('detail.published')}</span>
                 <span>{publishedText}</span>
               </div>
               <div className="flex justify-between py-2 border-b border-gray-800">
-                <span className="text-gray-400">时长</span>
+                <span className="text-gray-400">{t('detail.duration')}</span>
                 <span>{durationText}</span>
               </div>
               <div className="flex justify-between py-2 border-b border-gray-800">
-                <span className="text-gray-400">类型</span>
+                <span className="text-gray-400">{t('detail.type')}</span>
                 <span className="capitalize">{film.content_type?.replace(/_/g, ' ') || 'Short Film'}</span>
               </div>
               <div className="flex justify-between py-2 border-b border-gray-800">
-                <span className="text-gray-400">语言</span>
+                <span className="text-gray-400">{t('detail.language')}</span>
                 <span className="uppercase">{film.language || 'EN'}</span>
               </div>
               <div className="flex justify-between py-2 border-b border-gray-800">
-                <span className="text-gray-400">风格</span>
+                <span className="text-gray-400">{t('detail.genre')}</span>
                 <span className="capitalize">{genres.join(', ').replace(/_/g, ' ') || '—'}</span>
               </div>
               <div className="flex justify-between py-2">
-                <span className="text-gray-400">状态</span>
+                <span className="text-gray-400">{t('detail.status')}</span>
                 <span className="capitalize text-green-400">{film.status}</span>
               </div>
             </div>
@@ -282,19 +284,19 @@ export function FilmDetailPage() {
           {/* Metrics */}
           {metrics && (
             <div className="bg-gray-900 rounded-xl p-5 border border-gray-800">
-              <h2 className="text-lg font-semibold mb-4">数据指标</h2>
+              <h2 className="text-lg font-semibold mb-4">{t('detail.metrics')}</h2>
               <div className="grid grid-cols-3 gap-4">
                 <div className="text-center p-3 bg-gray-800 rounded-lg">
                   <div className="text-2xl font-bold text-white">{metrics.views.toLocaleString()}</div>
-                  <div className="text-xs text-gray-400 mt-1">Views</div>
+                  <div className="text-xs text-gray-400 mt-1">{t('detail.views')}</div>
                 </div>
                 <div className="text-center p-3 bg-gray-800 rounded-lg">
                   <div className="text-2xl font-bold text-white">{metrics.likes.toLocaleString()}</div>
-                  <div className="text-xs text-gray-400 mt-1">Likes</div>
+                  <div className="text-xs text-gray-400 mt-1">{t('detail.likes')}</div>
                 </div>
                 <div className="text-center p-3 bg-gray-800 rounded-lg">
                   <div className="text-2xl font-bold text-white">{metrics.comments.toLocaleString()}</div>
-                  <div className="text-xs text-gray-400 mt-1">Comments</div>
+                  <div className="text-xs text-gray-400 mt-1">{t('detail.comments')}</div>
                 </div>
               </div>
             </div>
@@ -304,23 +306,23 @@ export function FilmDetailPage() {
         {/* AI Analysis */}
         {aiAnalysis && (
           <div className="bg-gray-900 rounded-xl p-5 border border-gray-800 mb-8">
-            <h2 className="text-lg font-semibold mb-4">AI 分析</h2>
+            <h2 className="text-lg font-semibold mb-4">{t('detail.aiAnalysis')}</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-4">
               <div className="text-center p-3 bg-gray-800 rounded-lg">
                 <div className="text-xl font-bold text-blue-400">{(aiAnalysis.ai_generation_level * 100).toFixed(0)}%</div>
-                <div className="text-xs text-gray-400 mt-1">AI Generation</div>
+                <div className="text-xs text-gray-400 mt-1">{t('detail.aiGeneration')}</div>
               </div>
               <div className="text-center p-3 bg-gray-800 rounded-lg">
                 <div className="text-xl font-bold text-green-400">{(aiAnalysis.story_completeness * 100).toFixed(0)}%</div>
-                <div className="text-xs text-gray-400 mt-1">Story Complete</div>
+                <div className="text-xs text-gray-400 mt-1">{t('detail.storyComplete')}</div>
               </div>
               <div className="text-center p-3 bg-gray-800 rounded-lg">
                 <div className="text-xl font-bold text-purple-400 capitalize">{aiAnalysis.content_type.replace(/_/g, ' ')}</div>
-                <div className="text-xs text-gray-400 mt-1">Content Type</div>
+                <div className="text-xs text-gray-400 mt-1">{t('detail.contentType')}</div>
               </div>
               <div className="text-center p-3 bg-gray-800 rounded-lg">
                 <div className="text-xl font-bold text-yellow-400 uppercase">{aiAnalysis.language}</div>
-                <div className="text-xs text-gray-400 mt-1">Language</div>
+                <div className="text-xs text-gray-400 mt-1">{t('detail.language')}</div>
               </div>
             </div>
             {aiAnalysis.summary && (
@@ -332,7 +334,7 @@ export function FilmDetailPage() {
         {/* Description */}
         {film.description && (
           <div className="mb-8">
-            <h2 className="text-lg font-semibold mb-3">简介</h2>
+            <h2 className="text-lg font-semibold mb-3">{t('detail.description')}</h2>
             <p className="text-gray-400 leading-relaxed">{film.description}</p>
           </div>
         )}

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { RankingList } from '../components/RankingList';
 import { api } from '../utils/api';
+import { useI18n } from '../i18n';
 import type { RankingResponse } from '../types';
 
 export function NewPage() {
+  const { t } = useI18n();
   const [data, setData] = useState<RankingResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +25,7 @@ export function NewPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
-        <div className="text-lg">Loading...</div>
+        <div className="text-lg">{t('home.loading')}</div>
       </div>
     );
   }
@@ -31,7 +33,7 @@ export function NewPage() {
   if (error || !data) {
     return (
       <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
-        <div className="text-lg text-red-400">Error: {error || 'No data'}</div>
+        <div className="text-lg text-red-400">{t('home.error')}: {error || 'No data'}</div>
       </div>
     );
   }
@@ -39,8 +41,8 @@ export function NewPage() {
   return (
     <RankingList
       items={data.items}
-      title="NEW 50"
-      subtitle="Recently discovered AI films"
+      title={t('new.title')}
+      subtitle={t('new.subtitle')}
     />
   );
 }

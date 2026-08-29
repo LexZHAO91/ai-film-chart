@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useI18n } from '../i18n';
 import type { RankingSnapshotItem } from '../types';
 
 interface RankingListProps {
@@ -8,13 +9,15 @@ interface RankingListProps {
 }
 
 export function RankingList({ items, title, subtitle }: RankingListProps) {
+  const { t } = useI18n();
+
   return (
     <div className="min-h-screen bg-gray-950 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold tracking-tight">{title}</h1>
           <p className="mt-2 text-gray-400">{subtitle}</p>
-          <p className="mt-1 text-sm text-gray-500">Updated every 3 days</p>
+          <p className="mt-1 text-sm text-gray-500">{t('ranking.updated')}</p>
         </div>
 
         <div className="space-y-3">
@@ -54,14 +57,14 @@ export function RankingList({ items, title, subtitle }: RankingListProps) {
                         const parent = target.parentElement;
                         if (parent) {
                           parent.className = 'flex-shrink-0 w-28 h-18 bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center text-gray-600 text-xs';
-                          parent.textContent = 'No Image';
+                          parent.textContent = t('ranking.noImage');
                         }
                       }
                     }}
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-gray-600 text-xs">
-                    No Image
+                    {t('ranking.noImage')}
                   </div>
                 )}
               </div>
@@ -71,7 +74,7 @@ export function RankingList({ items, title, subtitle }: RankingListProps) {
                 <h3 className="text-base font-medium truncate">{item.film_title || 'Unknown'}</h3>
                 <div className="mt-1 flex items-center space-x-3 text-xs text-gray-500">
                   {item.is_new && (
-                    <span className="px-2 py-0.5 bg-green-900/50 text-green-400 rounded font-medium">NEW</span>
+                    <span className="px-2 py-0.5 bg-green-900/50 text-green-400 rounded font-medium">{t('ranking.new')}</span>
                   )}
                   {item.rank_change > 0 && (
                     <span className="text-green-400">↑ {item.rank_change}</span>
@@ -94,7 +97,7 @@ export function RankingList({ items, title, subtitle }: RankingListProps) {
                 }`}>
                   {(item.score * 100).toFixed(1)}
                 </div>
-                <div className="text-xs text-gray-500">SCORE</div>
+                <div className="text-xs text-gray-500">{t('ranking.score')}</div>
               </div>
             </Link>
           ))}

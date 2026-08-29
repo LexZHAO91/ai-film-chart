@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { RankingList } from '../components/RankingList';
 import { api } from '../utils/api';
+import { useI18n } from '../i18n';
 import type { RankingResponse } from '../types';
 
 export function HomePage() {
+  const { t } = useI18n();
   const [data, setData] = useState<RankingResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +25,7 @@ export function HomePage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
-        <div className="text-lg">Loading rankings...</div>
+        <div className="text-lg">{t('home.loading')}</div>
       </div>
     );
   }
@@ -31,7 +33,7 @@ export function HomePage() {
   if (error) {
     return (
       <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
-        <div className="text-lg text-red-400">Error: {error}</div>
+        <div className="text-lg text-red-400">{t('home.error')}: {error}</div>
       </div>
     );
   }
@@ -40,9 +42,9 @@ export function HomePage() {
     return (
       <div className="min-h-screen bg-gray-950 text-white flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">AI FILM CHART</h2>
-          <p className="text-gray-400 mb-4">The AI films worth watching.</p>
-          <p className="text-sm text-gray-500">No rankings available yet. Run ranking from admin.</p>
+          <h2 className="text-2xl font-bold mb-4">{t('home.empty.title')}</h2>
+          <p className="text-gray-400 mb-4">{t('home.empty.subtitle')}</p>
+          <p className="text-sm text-gray-500">{t('home.empty.hint')}</p>
         </div>
       </div>
     );
@@ -51,8 +53,8 @@ export function HomePage() {
   return (
     <RankingList
       items={data.items}
-      title="TOP 100"
-      subtitle="The best AI films ranked by our algorithm"
+      title={t('nav.top100')}
+      subtitle={t('home.empty.subtitle')}
     />
   );
 }
