@@ -185,6 +185,59 @@ function t(label: keyof typeof L, lang: 'zh' | 'en') {
 }
 
 // ============================================
+// 说明提示组件 / Help Tooltip Component
+// ============================================
+function Help({ text }: { text: string }) {
+  return (
+    <details className="inline-block">
+      <summary className="inline-block cursor-help text-gray-600 hover:text-gray-400 text-xs align-middle ml-1">
+        (?)
+      </summary>
+      <div className="absolute mt-1 p-3 bg-gray-950 border border-gray-700 rounded-lg text-xs text-gray-400 max-w-md z-50 shadow-xl whitespace-pre-line">
+        {text}
+      </div>
+    </details>
+  );
+}
+
+// 说明文字集合 / Help texts (keep in sync with actual buttons)
+const H = {
+  dashboard: '【总览页说明】\n这个页面展示当前 AI 影视作品库的整体概况。\n\n• 候选池进度条：显示当前已收录的作品数量相对于目标数量（100部）的完成比例。\n• 统计卡片：分别显示已验证、待审核、已拒绝、人工评分过的作品数量，以及可观看/不可观看、热度已验证/未知的作品数量。\n• 作品类型分布：按短片、长片、纪录片等类型统计当前作品库的构成。\n\n所有数据均为实时从数据库读取，无需手动操作。',
+
+  search: '【搜索框】\n输入关键词实时筛选作品列表，支持标题、创作者名称模糊匹配。输入即生效，无需点击搜索按钮。清空输入框可恢复显示全部作品。',
+
+  refresh: '【刷新按钮】\n重新从数据库加载所有作品数据。当你在外部（如爬虫或其他操作）修改了数据库后，点击此按钮可同步看到最新数据。',
+
+  crawl: '【全网搜索AI影片按钮】\n点击后系统会自动通过 YouTube 搜索真实存在的 AI 影视作品。\n\n工作原理：\n1. 用多个关键词搜索 YouTube（如 "AIFF 2025 Runway"、"Sora AI short film" 等）\n2. 从搜索结果中提取视频 ID\n3. 通过 YouTube oEmbed API 获取每个视频的真实标题、创作者、缩略图\n4. 用 AI 关键词过滤掉非 AI 影片内容\n5. 自动导入到数据库\n\n搜索完成后，结果会自动展示在「✨ 新发现」标签页中，方便你单独查看。\n\n注意：每次搜索可能有部分请求因 Cloudflare Workers 子请求限制而失败，多搜几次可以发现更多作品。',
+
+  edit: '【编辑按钮】\n点击打开编辑弹窗，可以修改作品的标题、创作者、简介、类型、年份、国家等信息。\n修改后会自动记录到审计日志中，所有变更可追溯。',
+
+  generatePoster: '【生成海报按钮】\n为该作品用 Cloudflare AI (Stable Diffusion XL) 生成一张电影海报风格的缩略图。\n\n这是一个兜底功能：如果作品本身没有来自 YouTube 的真实缩略图，可以点此生成一张 AI 海报作为占位图。\n已上传真实缩略图的作品不需要使用此功能。',
+
+  auditLog: '【审计日志按钮】\n查看该作品的所有操作记录，包括创建、编辑、删除、恢复等。每条记录包含操作者、操作类型、修改前后的值、操作时间。\n所有后台操作都会自动记录，不可篡改。',
+
+  delete: '【删除按钮】\n点击后会将该作品标记为「待删除」状态（软删除），作品不会真正从数据库中消失。\n标记后会出现两个按钮：\n• 确认删除：永久标记为已删除（仍可恢复）\n• 取消删除：撤回删除操作，恢复为正常状态\n\n采用两步删除是为了防止误操作。',
+
+  restore: '【恢复按钮】\n将已删除的作品恢复为正常状态。恢复后作品会重新出现在列表和排名中。',
+
+  addWatchSource: '【+ 添加观看链接按钮】\n为该作品添加一个可观看的链接（如 YouTube、Vimeo 等）。\n点击后弹窗输入链接地址、来源类型（YOUTUBE/VIMEO/FESTIVAL等）、角色（WATCH表示可观看）、状态。\n一个作品可以有多个观看链接，第一个会标记为主要来源。',
+
+  watchSourceEdit: '【观看链接编辑按钮】\n修改该观看链接的信息，包括地址、来源类型、角色等。',
+
+  watchSourceDelete: '【观看链接删除按钮】\n删除该观看链接。删除后不可恢复，请确认后再操作。',
+
+  posterFallback: '【🎨 兜底功能：为缺少缩略图的作品生成 AI 海报】\n\n这是一个折叠的兜底功能，默认不展开。\n\n作用：为所有缺少 poster_url 的作品批量生成 AI 海报。使用 Cloudflare Workers AI (Stable Diffusion XL) 根据作品标题和简介生成。\n\n使用场景：爬虫抓取的作品通常自带 YouTube 缩略图，不需要此功能。但如果某些作品的缩略图失效或缺失，可以点此批量补充。\n\n注意：AI 生成的海报是艺术化占位图，不是真实影片截图。',
+
+  discovered: '【✨ 新发现标签页说明】\n这个页面展示爬虫最近一次搜索发现的作品，以卡片网格形式展示。\n\n每张卡片包含：\n• 大缩略图（YouTube 真实视频封面）\n• 作品标题和创作者\n• 简介\n• ▶ 观看按钮：点击直接跳转到 YouTube 观看\n• 编辑按钮：跳转到「作品管理」页面编辑该作品\n\n这些作品在爬虫运行时已自动导入数据库。如果你觉得某部不是真正的 AI 影片，可以到「作品管理」中删除。',
+
+  tabs: '【标签页切换说明】\n• 总览：查看作品库整体统计数据和进度\n• 作品管理：浏览、搜索、编辑、删除所有已收录的作品\n• ✨ 新发现：查看爬虫最近搜索到的作品，以卡片形式展示\n\n点击标签即可切换，切换到「作品管理」时会自动加载最新数据。',
+
+  langToggle: '【中/EN 切换】\n切换管理后台界面语言。中文模式下所有标签、按钮、说明显示中文；英文模式显示英文。默认为中文。',
+
+  login: '【登录说明】\n输入管理 Token 即可登录后台。Token 已在 Cloudflare Workers 配置中设置。\n登录状态保存在浏览器本地存储（localStorage），关闭页面后下次打开无需重新登录。\n如需退出，点击右上角的「退出」按钮即可清除登录状态。',
+};
+
+// ============================================
 // 主组件 / Main Component
 // ============================================
 export function AdminPage() {
@@ -503,7 +556,7 @@ const [discoveredWorks, setDiscoveredWorks] = useState<any[]>([]);
         )}
 
         {/* Tabs */}
-        <div className="flex space-x-2 mb-6 border-b border-gray-800 pb-4">
+        <div className="flex items-center space-x-2 mb-6 border-b border-gray-800 pb-4">
           {([
             { key: 'dashboard', label: t('dashboard', lang) },
             { key: 'works', label: t('works', lang) },
@@ -522,11 +575,13 @@ const [discoveredWorks, setDiscoveredWorks] = useState<any[]>([]);
               {tab.label}
             </button>
           ))}
+          <Help text={H.tabs} />
         </div>
 
         {/* ==================== DASHBOARD TAB ==================== */}
         {activeTab === 'dashboard' && (
           <div className="space-y-6">
+            <Help text={H.dashboard} />
             {/* Phase 35 Status Card */}
             {p35Status && (
               <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
@@ -601,12 +656,13 @@ const [discoveredWorks, setDiscoveredWorks] = useState<any[]>([]);
                   className="w-full px-4 py-3 bg-gray-900 rounded-lg border border-gray-700 text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none pl-10"
                 />
                 <span className="absolute left-3 top-3.5 text-gray-500">🔍</span>
+                <span className="absolute right-3 top-3.5"><Help text={H.search} /></span>
               </div>
               <button onClick={loadWorks} className="px-5 py-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors whitespace-nowrap">
-                {t('refresh', lang)}
+                {t('refresh', lang)} <Help text={H.refresh} />
               </button>
               <button onClick={handleRunCrawler} disabled={loading} className="px-5 py-3 bg-green-700 hover:bg-green-600 disabled:bg-green-900 rounded-lg transition-colors whitespace-nowrap">
-                {loading ? t('loading', lang) : '🔍 ' + (lang === 'zh' ? '全网搜索AI影片' : 'Crawl AI Films')}
+                {loading ? t('loading', lang) : '🔍 ' + (lang === 'zh' ? '全网搜索AI影片' : 'Crawl AI Films')} <Help text={H.crawl} />
               </button>
             </div>
 
@@ -679,25 +735,25 @@ const [discoveredWorks, setDiscoveredWorks] = useState<any[]>([]);
                     {/* Action Buttons */}
                     <div className="flex flex-col gap-2 flex-shrink-0">
                       <button onClick={() => setEditingWork(work)} className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 rounded-lg text-sm transition-colors">
-                        {t('edit', lang)}
+                        {t('edit', lang)} <Help text={H.edit} />
                       </button>
                       <button
                         onClick={() => handleGeneratePoster(work.id)}
                         disabled={generatingPoster === work.id}
                         className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 disabled:bg-purple-900 rounded-lg text-sm transition-colors"
                       >
-                        {generatingPoster === work.id ? t('generating', lang) : t('generatePoster', lang)}
+                        {generatingPoster === work.id ? t('generating', lang) : t('generatePoster', lang)} <Help text={H.generatePoster} />
                       </button>
                       <button
                         onClick={() => { setViewingAuditLog(work.id); loadAuditLog(work.id); }}
                         className="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 rounded-lg text-sm transition-colors"
                       >
-                        {t('auditLog', lang)}
+                        {t('auditLog', lang)} <Help text={H.auditLog} />
                       </button>
                       {work.eligibility_status === 'pending_removal' ? (
                         <>
                           <button onClick={() => handleConfirmDelete(work)} className="px-3 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg text-sm transition-colors">
-                            {t('confirmDelete', lang)}
+                            {t('confirmDelete', lang)} <Help text={H.delete} />
                           </button>
                           <button onClick={() => handleCancelDelete(work.id)} className="px-3 py-1.5 bg-green-600 hover:bg-green-700 rounded-lg text-sm transition-colors">
                             {t('cancelDelete', lang)}
@@ -705,11 +761,11 @@ const [discoveredWorks, setDiscoveredWorks] = useState<any[]>([]);
                         </>
                       ) : work.eligibility_status === 'removed' ? (
                         <button onClick={() => handleRestoreWork(work.id)} className="px-3 py-1.5 bg-green-600 hover:bg-green-700 rounded-lg text-sm transition-colors">
-                          {t('restore', lang)}
+                          {t('restore', lang)} <Help text={H.restore} />
                         </button>
                       ) : (
                         <button onClick={() => handleRequestDelete(work)} className="px-3 py-1.5 bg-red-900 hover:bg-red-800 rounded-lg text-sm transition-colors">
-                          {t('delete', lang)}
+                          {t('delete', lang)} <Help text={H.delete} />
                         </button>
                       )}
                     </div>
@@ -728,15 +784,15 @@ const [discoveredWorks, setDiscoveredWorks] = useState<any[]>([]);
                             </a>
                           </div>
                           <div className="flex gap-1 flex-shrink-0 ml-2">
-                            <button onClick={() => setEditingWatchSource({ workId: work.id, source })} className="px-2 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs">{t('edit', lang)}</button>
-                            <button onClick={() => handleDeleteWatchSource(source.id)} className="px-2 py-1 bg-red-900 hover:bg-red-800 rounded text-xs">{t('delete', lang)}</button>
+                            <button onClick={() => setEditingWatchSource({ workId: work.id, source })} className="px-2 py-1 bg-gray-700 hover:bg-gray-600 rounded text-xs">{t('edit', lang)} <Help text={H.watchSourceEdit} /></button>
+                            <button onClick={() => handleDeleteWatchSource(source.id)} className="px-2 py-1 bg-red-900 hover:bg-red-800 rounded text-xs">{t('delete', lang)} <Help text={H.watchSourceDelete} /></button>
                           </div>
                         </div>
                       ))}
                     </div>
                   )}
                   <button onClick={() => setEditingWatchSource({ workId: work.id })} className="mt-3 text-sm text-blue-400 hover:text-blue-300">
-                    {t('addWatchSource', lang)}
+                    {t('addWatchSource', lang)} <Help text={H.addWatchSource} />
                   </button>
                 </div>
               ))}
@@ -746,7 +802,7 @@ const [discoveredWorks, setDiscoveredWorks] = useState<any[]>([]);
             <div className="mt-8 pt-6 border-t border-gray-800">
               <details className="text-gray-500">
                 <summary className="cursor-pointer text-sm hover:text-gray-400 transition-colors">
-                  {lang === 'zh' ? '🎨 兜底功能：为缺少缩略图的作品生成 AI 海报' : '🎨 Fallback: Generate AI posters for works missing thumbnails'}
+                  {lang === 'zh' ? '🎨 兜底功能：为缺少缩略图的作品生成 AI 海报' : '🎨 Fallback: Generate AI posters for works missing thumbnails'} <Help text={H.posterFallback} />
                 </summary>
                 <div className="mt-3 flex items-center gap-3">
                   <button
@@ -769,8 +825,9 @@ const [discoveredWorks, setDiscoveredWorks] = useState<any[]>([]);
         {activeTab === 'discovered' && (
           <div className="space-y-4">
             <div className="bg-blue-900/30 border border-blue-800 rounded-xl p-4">
-              <h3 className="font-bold text-lg mb-1">
+              <h3 className="font-bold text-lg mb-1 flex items-center">
                 {lang === 'zh' ? '✨ 新发现的作品' : '✨ Newly Discovered'}
+                <Help text={H.discovered} />
               </h3>
               <p className="text-sm text-gray-400">
                 {lang === 'zh'
