@@ -606,12 +606,14 @@ async function submitRating(db: D1Database, request: Request, filmId: number, he
     const userIdentifier = body.userId || `anon_${request.headers.get('CF-Connecting-IP') || 'unknown'}_${filmId}`;
 
     // Insert or replace rating (allow re-rating)
+    // Note: D1 SQLite doesn't support ON CONFLICT with UNIQUE on TEXT columns well,
+    // so we use DELETE + INSERT pattern for upsert
+    await db.prepare('DELETE FROM ratings WHERE user_id = ? AND film_id = ?')
+      .bind(userIdentifier, filmId).run();
+
     await db.prepare(`
       INSERT INTO ratings (user_id, film_id, rating, review)
       VALUES (?, ?, ?, ?)
-      ON CONFLICT(user_id, film_id) DO UPDATE SET
-        rating = excluded.rating,
-        updated_at = CURRENT_TIMESTAMP
     `).bind(userIdentifier, filmId, normalizedRating, '').run();
 
     // Get updated average
@@ -628,7 +630,9 @@ async function submitRating(db: D1Database, request: Request, filmId: number, he
       count: avg?.count || 0,
     }, 200, headers);
   } catch (error) {
-    return jsonResponse({ error: 'Failed to submit rating' }, 500, headers);
+    const msg = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Rating submit error:', msg);
+    return jsonResponse({ error: 'Failed to submit rating', detail: msg }, 500, headers);
   }
 }
 

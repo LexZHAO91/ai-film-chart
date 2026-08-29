@@ -634,6 +634,8 @@ export class AdminCrudService {
     duration_seconds: number | null;
     poster_url: string | null;
     watch_sources: { id: number; url: string; source_role: string; watch_status: string }[];
+    audience_rating: number | null;
+    rating_count: number;
   }[]> {
     const { results: works } = await this.db
       .prepare(`
@@ -665,9 +667,19 @@ export class AdminCrudService {
         .bind(work.id)
         .all<{ id: number; url: string; source_role: string; watch_status: string }>();
 
+      // Get audience ratings for this work
+      const { results: ratingResult } = await this.db
+        .prepare('SELECT AVG(rating) as avg_rating, COUNT(*) as count FROM ratings WHERE film_id = ?')
+        .bind(work.id)
+        .all<{ avg_rating: number; count: number }>();
+
+      const ratingData = ratingResult?.[0];
+
       result.push({
         ...work,
         watch_sources: sources || [],
+        audience_rating: ratingData?.avg_rating ? ratingData.avg_rating / 2 : null,
+        rating_count: ratingData?.count || 0,
       });
     }
 

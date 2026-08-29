@@ -117,6 +117,8 @@ interface WorkItem {
   duration_seconds?: number | null;
   poster_url?: string | null;
   watch_sources: { id: number; url: string; source_role: string; watch_status: string; source_type: string }[];
+  audience_rating: number | null;
+  rating_count: number;
 }
 
 // ============================================
@@ -582,6 +584,49 @@ const [discoveredWorks, setDiscoveredWorks] = useState<any[]>([]);
         {activeTab === 'dashboard' && (
           <div className="space-y-6">
             <Help text={H.dashboard} />
+
+            {/* Audience Ratings Overview Card */}
+            {works.length > 0 && (
+              <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
+                <h2 className="text-lg font-semibold mb-4 flex items-center">
+                  <span className="w-2 h-2 bg-yellow-400 rounded-full mr-2"></span>
+                  {lang === 'zh' ? '观众评分总览' : 'Audience Ratings Overview'}
+                </h2>
+                {(() => {
+                  const ratedWorks = works.filter(w => w.rating_count > 0);
+                  const totalRatings = works.reduce((sum, w) => sum + w.rating_count, 0);
+                  const avgRating = ratedWorks.length > 0
+                    ? (ratedWorks.reduce((sum, w) => sum + (w.audience_rating || 0), 0) / ratedWorks.length).toFixed(1)
+                    : '-';
+                  return (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="bg-gray-800 rounded-lg p-4 text-center">
+                        <div className="text-2xl font-bold text-yellow-400">{ratedWorks.length}</div>
+                        <div className="text-xs text-gray-400 mt-1">{lang === 'zh' ? '已获评分作品' : 'Rated Works'}</div>
+                      </div>
+                      <div className="bg-gray-800 rounded-lg p-4 text-center">
+                        <div className="text-2xl font-bold text-white">{totalRatings}</div>
+                        <div className="text-xs text-gray-400 mt-1">{lang === 'zh' ? '总评分人次' : 'Total Ratings'}</div>
+                      </div>
+                      <div className="bg-gray-800 rounded-lg p-4 text-center">
+                        <div className="text-2xl font-bold text-green-400">{avgRating}</div>
+                        <div className="text-xs text-gray-400 mt-1">{lang === 'zh' ? '平均评分 (/5)' : 'Avg Rating (/5)'}</div>
+                      </div>
+                      <div className="bg-gray-800 rounded-lg p-4 text-center">
+                        <div className="text-2xl font-bold text-blue-400">{works.length - ratedWorks.length}</div>
+                        <div className="text-xs text-gray-400 mt-1">{lang === 'zh' ? '待评分作品' : 'Unrated Works'}</div>
+                      </div>
+                    </div>
+                  );
+                })()}
+                <div className="mt-4 text-xs text-gray-500">
+                  {lang === 'zh'
+                    ? '💡 观众评分通过「观众评分 = 平均分 × 20%」的方式融入 AI Chart Score 的 Audience 维度。'
+                    : '💡 Audience ratings contribute 20% to the AI Chart Score Audience dimension.'}
+                </div>
+              </div>
+            )}
+
             {/* Phase 35 Status Card */}
             {p35Status && (
               <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
@@ -728,6 +773,11 @@ const [discoveredWorks, setDiscoveredWorks] = useState<any[]>([]);
                           <span>⭐ {t('rating', lang)}: {work.human_quality_rating ?? '-'}</span>
                           <span>📋 {t('origin', lang)}: {work.review_origin ?? '-'}</span>
                           <span>🔗 {t('watch', lang)}: {work.watch_sources.length}</span>
+                          {work.rating_count > 0 && (
+                            <span className="text-yellow-400">
+                              👥 观众评分: {work.audience_rating?.toFixed(1) ?? '-'} / 5 ({work.rating_count} 人)
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>
