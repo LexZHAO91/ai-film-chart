@@ -610,7 +610,12 @@ const [generatingPoster, setGeneratingPoster] = useState<number | null>(null);
                             alt={work.canonical_title}
                             className="w-20 h-28 object-cover rounded-lg border border-gray-700"
                             loading="lazy"
-                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                            crossOrigin="anonymous"
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = 'none';
+                              target.parentElement!.innerHTML = `<div class="w-20 h-28 bg-gray-800 rounded-lg border border-gray-700 flex flex-col items-center justify-center text-gray-600 text-xs"><span class="text-2xl mb-1">🎬</span><span>${t('noPoster', lang)}</span></div>`;
+                            }}
                           />
                         ) : (
                           <div className="w-20 h-28 bg-gray-800 rounded-lg border border-gray-700 flex flex-col items-center justify-center text-gray-600 text-xs">
