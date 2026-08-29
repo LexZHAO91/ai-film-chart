@@ -89,9 +89,9 @@ export class RankingModel {
     if (!snapshot) return null;
 
     const { results } = await this.db.prepare(`
-      SELECT rsi.*, f.title as film_title, f.thumbnail_url
+      SELECT rsi.*, w.canonical_title as film_title, w.poster_url as thumbnail_url
       FROM ranking_snapshot_items rsi
-      JOIN films f ON rsi.film_id = f.id
+      JOIN works w ON rsi.film_id = w.id
       WHERE rsi.snapshot_id = ?
       ORDER BY rsi.rank ASC
     `).bind(snapshotId).all<RankingSnapshotItem & { film_title?: string; thumbnail_url?: string }>();

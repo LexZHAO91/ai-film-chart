@@ -32,9 +32,24 @@ export function RankingList({ items, title, subtitle }: RankingListProps) {
                 {item.thumbnail_url ? (
                   <img
                     src={item.thumbnail_url}
-                    alt=""
+                    alt={item.film_title || ''}
                     className="w-full h-full object-cover"
                     loading="lazy"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      if (target.src.includes('maxresdefault.jpg')) {
+                        target.src = target.src.replace('maxresdefault.jpg', 'hqdefault.jpg');
+                      } else {
+                        target.onerror = null;
+                        target.style.display = 'none';
+                        const parent = target.parentElement;
+                        if (parent) {
+                          parent.className = 'w-full h-full flex items-center justify-center text-gray-600 text-xs';
+                          parent.textContent = 'No Image';
+                        }
+                      }
+                    }}
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-gray-600 text-xs">
