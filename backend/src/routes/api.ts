@@ -25,6 +25,7 @@ import { Phase33HumanReviewService } from '../services/phase33-human-review-serv
 import { Phase34ReviewCleanupService } from '../services/phase34-review-cleanup-service';
 import { Phase35InitialPoolService } from '../services/phase35-initial-pool-service';
 import { AdminCrudService } from '../services/admin-crud-service';
+import { ThumbnailService } from '../services/thumbnail-service';
 import { GoldenDatasetService } from '../services/golden-dataset-service';
 import { HumanBaselineService } from '../services/human-baseline-service';
 import { WorkService } from '../works';
@@ -37,6 +38,7 @@ import {
 
 export interface Env {
   DB: D1Database;
+  AI: any;
   YOUTUBE_API_KEY?: string;
   CF_ACCOUNT_ID?: string;
   CF_API_TOKEN?: string;
@@ -139,10 +141,8 @@ export async function handleApiRequest(request: Request, env: Env): Promise<Resp
         return await seedMockData(env.DB, headers);
       }
 
-      // Phase 19-25: New Admin APIs
-      if (path === '/api/admin/works' && request.method === 'GET') {
-        return await getWorks(env.DB, url, headers);
-      }
+      // Phase 19-25: New Admin APIs (legacy - use Admin CRUD below instead)
+      // NOTE: /api/admin/works GET is now handled by getAdminWorksList in the Admin CRUD section below
 
       if (path === '/api/admin/works' && request.method === 'POST') {
         return await createWork(env.DB, request, headers);
@@ -385,6 +385,21 @@ return await seedDiscoveryCandidates(env.DB, headers);
       if (path.startsWith('/api/admin/works/') && request.method === 'GET' && path.endsWith('/audit-log')) {
         const workId = parseInt(path.split('/')[4], 10);
         return await getAdminWorkAuditLog(env.DB, headers, workId);
+      }
+
+      // Thumbnail generation APIs
+      if (path === '/api/admin/thumbnails/generate-all' && request.method === 'POST') {
+        return await generateAllThumbnails(env, headers);
+      }
+
+      if (path.startsWith('/api/admin/works/') && request.method === 'POST' && path.endsWith('/generate-thumbnail')) {
+        const workId = parseInt(path.split('/')[4], 10);
+        return await generateWorkThumbnail(env, headers, workId);
+      }
+
+      if (path.startsWith('/api/admin/works/') && request.method === 'PUT' && path.endsWith('/poster')) {
+        const workId = parseInt(path.split('/')[4], 10);
+        return await updateWorkPoster(request, env.DB, headers, workId);
       }
 
       // Phase 27: Ranking Laboratory APIs
@@ -2467,6 +2482,41 @@ async function getAdminWorkAuditLog(db: D1Database, headers: Record<string, stri
     const service = new AdminCrudService(db);
     const logs = await service.getWorkAuditLog(workId);
     return jsonResponse({ success: true, logs }, 200, headers);
+  } catch (error) {
+    return jsonResponse({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, 500, headers);
+  }
+}
+
+// ============================================
+// Thumbnail Generation APIs
+// ============================================
+
+async function generateWorkThumbnail(env: Env, headers: Record<string, string>, workId: number): Promise<Response> {
+  try {
+    const service = new ThumbnailService(env.DB, env.AI);
+    const result = await service.generateThumbnailForWork(workId);
+    return jsonResponse(result, result.success ? 200 : 500, headers);
+  } catch (error) {
+    return jsonResponse({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, 500, headers);
+  }
+}
+
+async function generateAllThumbnails(env: Env, headers: Record<string, string>): Promise<Response> {
+  try {
+    const service = new ThumbnailService(env.DB, env.AI);
+    const result = await service.generateAllMissingThumbnails(3);
+    return jsonResponse({ success: true, result }, 200, headers);
+  } catch (error) {
+    return jsonResponse({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, 500, headers);
+  }
+}
+
+async function updateWorkPoster(request: Request, db: D1Database, headers: Record<string, string>, workId: number): Promise<Response> {
+  try {
+    const body = await request.json() as { poster_url: string; admin_id?: string };
+    const service = new ThumbnailService(db, null as any);
+    const success = await service.setCustomPoster(workId, body.poster_url);
+    return jsonResponse({ success, message: success ? 'Poster updated' : 'Failed to update poster' }, success ? 200 : 400, headers);
   } catch (error) {
     return jsonResponse({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, 500, headers);
   }

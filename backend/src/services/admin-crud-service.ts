@@ -627,11 +627,18 @@ export class AdminCrudService {
     review_origin: string | null;
     human_quality_rating: number | null;
     validation_eligible: number;
+    type: string | null;
+    synopsis: string | null;
+    country: string | null;
+    release_year: number | null;
+    duration_seconds: number | null;
+    poster_url: string | null;
     watch_sources: { id: number; url: string; source_role: string; watch_status: string }[];
   }[]> {
     const { results: works } = await this.db
       .prepare(`
-        SELECT id, canonical_title, creator_name, eligibility_status, review_origin, human_quality_rating, validation_eligible
+        SELECT id, canonical_title, creator_name, eligibility_status, review_origin, human_quality_rating, validation_eligible,
+               type, synopsis, country, release_year, duration_seconds, poster_url
         FROM works
         ORDER BY id
       `)
@@ -643,6 +650,12 @@ export class AdminCrudService {
         review_origin: string | null;
         human_quality_rating: number | null;
         validation_eligible: number;
+        type: string | null;
+        synopsis: string | null;
+        country: string | null;
+        release_year: number | null;
+        duration_seconds: number | null;
+        poster_url: string | null;
       }>();
 
     const result = [];
