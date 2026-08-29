@@ -89,12 +89,44 @@ export class RankingModel {
     if (!snapshot) return null;
 
     const { results } = await this.db.prepare(`
-      SELECT rsi.*, w.canonical_title as film_title, w.poster_url as thumbnail_url
+      SELECT
+        rsi.*,
+        w.canonical_title as film_title,
+        w.poster_url as thumbnail_url,
+        w.creator_name,
+        w.duration_seconds,
+        w.original_language as language,
+        w.country,
+        w.genre_json,
+        rs2.final_score as ranking_final_score,
+        rs2.audience_score as ranking_audience_score,
+        (SELECT AVG(rating) FROM ratings WHERE film_id = w.id) as avg_rating,
+        (SELECT COUNT(*) FROM ratings WHERE film_id = w.id) as rating_count,
+        wm.views,
+        wm.likes
       FROM ranking_snapshot_items rsi
       JOIN works w ON rsi.film_id = w.id
+      LEFT JOIN ranking_scores rs2 ON rs2.film_id = w.id
+        AND rs2.calculated_at = (SELECT MAX(calculated_at) FROM ranking_scores WHERE film_id = w.id)
+      LEFT JOIN work_metrics wm ON wm.work_id = w.id
+        AND wm.collected_at = (SELECT MAX(collected_at) FROM work_metrics WHERE work_id = w.id)
       WHERE rsi.snapshot_id = ?
       ORDER BY rsi.rank ASC
-    `).bind(snapshotId).all<RankingSnapshotItem & { film_title?: string; thumbnail_url?: string }>();
+    `).bind(snapshotId).all<RankingSnapshotItem & {
+      film_title?: string;
+      thumbnail_url?: string;
+      creator_name?: string;
+      duration_seconds?: number;
+      language?: string;
+      country?: string;
+      genre_json?: string;
+      ranking_final_score?: number;
+      ranking_audience_score?: number;
+      avg_rating?: number;
+      rating_count?: number;
+      views?: number;
+      likes?: number;
+    }>();
 
     return { snapshot, items: results || [] };
   }

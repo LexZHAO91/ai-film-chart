@@ -59,6 +59,17 @@ export interface RankingSnapshotItem {
   is_new: boolean;
   film_title?: string;
   thumbnail_url?: string;
+  creator_name?: string;
+  duration_seconds?: number;
+  language?: string;
+  country?: string;
+  genre_json?: string;
+  ranking_final_score?: number;
+  ranking_audience_score?: number;
+  avg_rating?: number;
+  rating_count?: number;
+  views?: number;
+  likes?: number;
 }
 
 export interface RankingSnapshot {
