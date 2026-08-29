@@ -1,0 +1,1319 @@
+{
+  "batch": "real-1",
+  "description": "Phase 30: First batch of real verifiable AI Cinema works from official festivals",
+  "imported_at": "2026-08-28T13:00:00Z",
+  "entries": [
+    {
+      "title": "A Face Only A Mother Could Love",
+      "creator": "Robert Gaudette",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": 2026,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Listed as finalist on official Reply AI Film Festival 2026 announcement page",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aiff.reply.com/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Reply AI Film Festival",
+          "event": "Reply AIFF 2026",
+          "award_level": "FINALIST",
+          "year": 2026,
+          "category": null,
+          "source_url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Centenarian Kindergarten",
+      "creator": "2xLabs",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": 2026,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Listed as finalist on official Reply AI Film Festival 2026 announcement page",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aiff.reply.com/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Reply AI Film Festival",
+          "event": "Reply AIFF 2026",
+          "award_level": "FINALIST",
+          "year": 2026,
+          "category": null,
+          "source_url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "GO HOME",
+      "creator": "Simone Paradiso",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": 2026,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Listed as finalist on official Reply AI Film Festival 2026 announcement page",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aiff.reply.com/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Reply AI Film Festival",
+          "event": "Reply AIFF 2026",
+          "award_level": "FINALIST",
+          "year": 2026,
+          "category": null,
+          "source_url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Little Mes",
+      "creator": "Salad Collective",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": 2026,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Listed as finalist on official Reply AI Film Festival 2026 announcement page",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aiff.reply.com/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Reply AI Film Festival",
+          "event": "Reply AIFF 2026",
+          "award_level": "FINALIST",
+          "year": 2026,
+          "category": null,
+          "source_url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Once Upon a Time on the Dnieper River",
+      "creator": "Yi Wang",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": 2026,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Listed as finalist on official Reply AI Film Festival 2026 announcement page",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aiff.reply.com/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Reply AI Film Festival",
+          "event": "Reply AIFF 2026",
+          "award_level": "FINALIST",
+          "year": 2026,
+          "category": null,
+          "source_url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Passenger",
+      "creator": "Yuanbo Song",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": 2026,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Listed as finalist on official Reply AI Film Festival 2026 announcement page",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aiff.reply.com/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Reply AI Film Festival",
+          "event": "Reply AIFF 2026",
+          "award_level": "FINALIST",
+          "year": 2026,
+          "category": null,
+          "source_url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "The Child of the Sea",
+      "creator": "Ibai Abad",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": 2026,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Listed as finalist on official Reply AI Film Festival 2026 announcement page",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aiff.reply.com/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Reply AI Film Festival",
+          "event": "Reply AIFF 2026",
+          "award_level": "FINALIST",
+          "year": 2026,
+          "category": null,
+          "source_url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Website",
+      "creator": "Jiaze Li",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": 2026,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Listed as finalist on official Reply AI Film Festival 2026 announcement page",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aiff.reply.com/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Reply AI Film Festival",
+          "event": "Reply AIFF 2026",
+          "award_level": "FINALIST",
+          "year": 2026,
+          "category": null,
+          "source_url": "https://www.reply.com/en/newsroom/news/ten-finalists-announced-for-the-reply-ai-film-festival-the-international-competition-bringing-together-cinema-and-artificial-intelligence",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "To Dear Me",
+      "creator": "Gisele Tong",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": 2025,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Winner of Reply AI Film Festival 2025",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://www.reply.com/en/artificial-intelligence/reply-ai-film-festival-2025",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aiff.reply.com/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Reply AI Film Festival",
+          "event": "Reply AIFF 2025",
+          "award_level": "WINNER",
+          "year": 2025,
+          "category": null,
+          "source_url": "https://www.reply.com/en/artificial-intelligence/reply-ai-film-festival-2025",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "One Way",
+      "creator": "Egor Kharlamov",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": 2025,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Runner-up of Reply AI Film Festival 2025",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://www.reply.com/en/artificial-intelligence/reply-ai-film-festival-2025",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aiff.reply.com/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Reply AI Film Festival",
+          "event": "Reply AIFF 2025",
+          "award_level": "RUNNER_UP",
+          "year": 2025,
+          "category": null,
+          "source_url": "https://www.reply.com/en/artificial-intelligence/reply-ai-film-festival-2025",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Jinx",
+      "creator": "Mansha Totla",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": 2025,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Third place of Reply AI Film Festival 2025",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://www.reply.com/en/artificial-intelligence/reply-ai-film-festival-2025",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aiff.reply.com/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Reply AI Film Festival",
+          "event": "Reply AIFF 2025",
+          "award_level": "THIRD_PLACE",
+          "year": 2025,
+          "category": null,
+          "source_url": "https://www.reply.com/en/artificial-intelligence/reply-ai-film-festival-2025",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "The Cinema That Never Was",
+      "creator": "Mark Wachholz",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": 2025,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Finalist of Reply AI Film Festival 2025",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://www.reply.com/en/artificial-intelligence/reply-ai-film-festival-2025",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aiff.reply.com/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Reply AI Film Festival",
+          "event": "Reply AIFF 2025",
+          "award_level": "FINALIST",
+          "year": 2025,
+          "category": null,
+          "source_url": "https://www.reply.com/en/artificial-intelligence/reply-ai-film-festival-2025",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Brother",
+      "creator": "Makoto Aminaka",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Jury Best Story at AI International Film Festival",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aifilmfest.org/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "JURY_AWARD",
+          "year": null,
+          "category": "Best Story",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Even",
+      "creator": "Chansoo Park",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Jury Best Thriller and Audience Best Film at AI International Film Festival",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aifilmfest.org/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "JURY_AWARD",
+          "year": null,
+          "category": "Best Thriller",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        },
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "AUDIENCE_AWARD",
+          "year": null,
+          "category": "Best Film",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "77 Hours",
+      "creator": "Vahid Mahdavi",
+      "type": "FEATURE_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": 4200,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "70-minute feature film, Jury Best Hybrid AI Film and Best Narrative Feature at AI International Film Festival",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aifilmfest.org/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "JURY_AWARD",
+          "year": null,
+          "category": "Best Hybrid AI Film",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        },
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "WINNER",
+          "year": null,
+          "category": "Best Narrative Feature",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "The Cosmic Access Liaison",
+      "creator": "James William Cipriano",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": 540,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "9-minute short, Jury Best Screenplay and Best Science Fiction at AI International Film Festival",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aifilmfest.org/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "JURY_AWARD",
+          "year": null,
+          "category": "Best Screenplay",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        },
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "WINNER",
+          "year": null,
+          "category": "Best Science Fiction",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "The Roach Approach",
+      "creator": "Georg Blume",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": 240,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "4-minute short, Jury Best Narrative Short at AI International Film Festival",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aifilmfest.org/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "JURY_AWARD",
+          "year": null,
+          "category": "Best Narrative Short",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Cotton and Iron",
+      "creator": "Yuanyuan Wang",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": null,
+      "duration_seconds": 420,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "7-minute AI animation, Jury Best AI Animation Short at AI International Film Festival",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aifilmfest.org/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "JURY_AWARD",
+          "year": null,
+          "category": "Best AI Animation Short",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "The Tale of the Peony",
+      "creator": "Yuqing Liu & Jintao Sun",
+      "type": "SHORT_FILM",
+      "format": "ANIMATION",
+      "synopsis": null,
+      "duration_seconds": 480,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "8-minute animation, Jury Best Animation and Audience Best Use of AI at AI International Film Festival",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aifilmfest.org/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "JURY_AWARD",
+          "year": null,
+          "category": "Best Animation",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        },
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "AUDIENCE_AWARD",
+          "year": null,
+          "category": "Best Use of AI",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "WCNSF",
+      "creator": "Antonio Cortés",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": 480,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "8-minute short, Jury Best AI Film and Audience Best Message at AI International Film Festival",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aifilmfest.org/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "JURY_AWARD",
+          "year": null,
+          "category": "Best AI Film",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        },
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "AUDIENCE_AWARD",
+          "year": null,
+          "category": "Best Message",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "A Day in Nevada",
+      "creator": "Andrei Madalin Sava",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": 420,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "7-minute short, Jury Best Actor and Audience Most Fun at AI International Film Festival",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aifilmfest.org/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "JURY_AWARD",
+          "year": null,
+          "category": "Best Actor",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        },
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "AUDIENCE_AWARD",
+          "year": null,
+          "category": "Most Fun",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "The Prompt Floor – Episode I",
+      "creator": "Mehdi Saqi",
+      "type": "SERIES",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": 540,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "9-minute series episode, Jury Best Comical Short and Audience Most Fun at AI International Film Festival",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aifilmfest.org/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "JURY_AWARD",
+          "year": null,
+          "category": "Best Comical Short",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        },
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "AUDIENCE_AWARD",
+          "year": null,
+          "category": "Most Fun",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Mamma Robot",
+      "creator": "Elettra Fiumi",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": 360,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "6-minute short, Jury Best AI Superintelligence and Best Story at AI International Film Festival",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aifilmfest.org/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "JURY_AWARD",
+          "year": null,
+          "category": "Best AI Superintelligence",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        },
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "WINNER",
+          "year": null,
+          "category": "Best Story",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Unknown Artefact",
+      "creator": "Lilit Barseghyan",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": 1140,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "19-minute short, Jury Best AI Film at AI International Film Festival",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aifilmfest.org/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "JURY_AWARD",
+          "year": null,
+          "category": "Best AI Film",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Close Enough",
+      "creator": "Alex Hunter",
+      "type": "SHORT_FILM",
+      "format": "EXPERIMENTAL",
+      "synopsis": null,
+      "duration_seconds": 600,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "10-minute experimental short, Best Experimental at AI International Film Festival",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aifilmfest.org/",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "AI International Film Festival",
+          "event": "AI International Film Festival",
+          "award_level": "WINNER",
+          "year": null,
+          "category": "Best Experimental",
+          "source_url": "https://aifilmfest.org/winners",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Total Pixel Space",
+      "creator": "Jacob Adler",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": 568,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "9:28 short, Grand Prix winner at Runway AI Film Festival 2025",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Runway AI Film Festival",
+          "event": "Runway AIFF 2025",
+          "award_level": "WINNER",
+          "year": 2025,
+          "category": "Grand Prix",
+          "source_url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "JAILBIRD",
+      "creator": "Andrew Salter",
+      "type": "DOCUMENTARY",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": 180,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Approximately 3-minute documentary, Gold at Runway AI Film Festival 2025",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Runway AI Film Festival",
+          "event": "Runway AIFF 2025",
+          "award_level": "WINNER",
+          "year": 2025,
+          "category": "Gold",
+          "source_url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "ONE",
+      "creator": "Ricardo Villavicencio & Edward Saatchi",
+      "type": "SHORT_FILM",
+      "format": "MIXED",
+      "synopsis": null,
+      "duration_seconds": null,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "Animation/mixed, Silver at Runway AI Film Festival 2025",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Runway AI Film Festival",
+          "event": "Runway AIFF 2025",
+          "award_level": "WINNER",
+          "year": 2025,
+          "category": "Silver",
+          "source_url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "More Tears Than Harm",
+      "creator": "Herinarivo Rakotomanana",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": 194,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "3:14 short, Honoree at Runway AI Film Festival 2025",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Runway AI Film Festival",
+          "event": "Runway AIFF 2025",
+          "award_level": "HONORABLE_MENTION",
+          "year": 2025,
+          "category": null,
+          "source_url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Fragments Of Nowhere",
+      "creator": "Vallée Duhamel",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": 484,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "8:04 short, Merit at Runway AI Film Festival 2025",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Runway AI Film Festival",
+          "event": "Runway AIFF 2025",
+          "award_level": "OFFICIAL_SELECTION",
+          "year": 2025,
+          "category": "Merit",
+          "source_url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    },
+    {
+      "title": "Emergence",
+      "creator": "Maddie Hong",
+      "type": "SHORT_FILM",
+      "format": "UNKNOWN",
+      "synopsis": null,
+      "duration_seconds": 215,
+      "release_year": null,
+      "country": null,
+      "language": null,
+      "genre": null,
+      "authenticity_status": "VERIFIED",
+      "verification_notes": "3:35 short, Merit at Runway AI Film Festival 2025",
+      "sources": [
+        {
+          "source_type": "FESTIVAL",
+          "url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED"
+        }
+      ],
+      "watch_sources": [
+        {
+          "source_type": "FESTIVAL_SCREENING",
+          "url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED",
+          "is_primary": true
+        }
+      ],
+      "recognition": [
+        {
+          "organization": "Runway AI Film Festival",
+          "event": "Runway AIFF 2025",
+          "award_level": "OFFICIAL_SELECTION",
+          "year": 2025,
+          "category": "Merit",
+          "source_url": "https://aif.runwayml.com/screening-room",
+          "verification_status": "VERIFIED"
+        }
+      ]
+    }
+  ]
+}

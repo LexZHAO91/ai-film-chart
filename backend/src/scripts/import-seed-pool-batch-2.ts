@@ -1,52 +1,23 @@
 /**
- * Seed Pool Import Script
+ * Import Seed Pool Batch 2
  *
- * Imports the first batch of real AI Cinema works into the database.
- * Usage: Run via API endpoint or local script.
+ * 导入 Phase 27 扩展的 40 条真实 AI Cinema 作品。
  */
 
 import type { D1Database } from '@cloudflare/workers-types';
 import { SeedImportService } from '../services/seed-import-service';
-import { ContentType, ContentFormat } from '../taxonomy';
-import seedData from '../data/seed-pool-batch-1.json';
+import seedPoolData from '../data/seed-pool-batch-2.json';
 
-export interface SeedPoolImportResult {
-  total: number;
-  imported: number;
-  duplicates: number;
-  ineligible: number;
-  errors: number;
-  details: { title: string; status: string; workId?: number; message: string }[];
-}
-
-/**
- * Import seed pool batch 1
- */
-export async function importSeedPoolBatch1(db: D1Database): Promise<SeedPoolImportResult> {
+export async function importSeedPoolBatch2(db: D1Database) {
   const seedService = new SeedImportService(db);
 
-  // Parse entries from JSON with proper enum casting
-  const entries = seedData.entries.map((entry: Record<string, unknown>) => ({
-    title: entry.title as string,
-    type: entry.type as ContentType,
-    format: entry.format as ContentFormat,
-    synopsis: entry.synopsis as string,
-    director: entry.director as string,
-    creator: entry.creator as string,
-    durationSeconds: entry.durationSeconds as number,
-    releaseYear: entry.releaseYear as number,
-    country: entry.country as string,
-    language: entry.language as string,
-    genre: entry.genre as string[],
-    posterUrl: entry.posterUrl as string,
-    trailerUrl: entry.trailerUrl as string,
-    officialSiteUrl: entry.officialSiteUrl as string,
-    youtubeUrl: entry.youtubeUrl as string,
-    sources: entry.sources as { type: string; url: string }[],
-    recognition: entry.recognition as { organization: string; event: string; awardLevel: string; year: number }[],
+  const entries = seedPoolData.entries.map(entry => ({
+    ...entry,
+    type: entry.type as any,
+    format: entry.format as any,
   }));
 
-  const result = await seedService.importBatch(entries, 'admin_seed_import');
+  const result = await seedService.importBatch(entries, 'admin');
 
   // After import, add mock metrics for works that were successfully imported
   const importedWorkIds = result.details
@@ -54,11 +25,10 @@ export async function importSeedPoolBatch1(db: D1Database): Promise<SeedPoolImpo
     .map(d => d.workId!);
 
   for (const workId of importedWorkIds) {
-    // Generate realistic mock metrics based on work characteristics
     await addMockMetrics(db, workId);
   }
 
-  // Mark SERIES entries with is_series flag
+  // Mark SERIES entries
   const seriesWorkIds = result.details
     .filter(d => d.status === 'imported' && d.workId && entries.find(e => e.title === d.title)?.type === 'SERIES')
     .map(d => d.workId!);
@@ -70,26 +40,26 @@ export async function importSeedPoolBatch1(db: D1Database): Promise<SeedPoolImpo
       .run();
   }
 
-  return {
-    total: result.total,
-    imported: result.imported,
-    duplicates: result.duplicates,
-    ineligible: result.ineligible,
-    errors: result.errors,
-    details: result.details.map(d => ({
-      title: d.title,
-      status: d.status,
-      workId: d.workId,
-      message: d.message,
-    })),
-  };
+  console.log('Seed Pool Batch 2 Import Result:');
+  console.log(`Total: ${result.total}`);
+  console.log(`Imported: ${result.imported}`);
+  console.log(`Duplicates: ${result.duplicates}`);
+  console.log(`Ineligible: ${result.ineligible}`);
+  console.log(`Errors: ${result.errors}`);
+
+  // Print details of rejected works
+  const rejected = result.details.filter(d => d.status !== 'imported');
+  if (rejected.length > 0) {
+    console.log('\nRejected Works:');
+    for (const r of rejected) {
+      console.log(`- ${r.title}: ${r.message}`);
+    }
+  }
+
+  return result;
 }
 
-/**
- * Add mock metrics to a work for ranking validation
- */
 async function addMockMetrics(db: D1Database, workId: number): Promise<void> {
-  // Get work info to generate realistic metrics
   const work = await db
     .prepare('SELECT type, format, duration_seconds FROM works WHERE id = ?')
     .bind(workId)
@@ -97,14 +67,12 @@ async function addMockMetrics(db: D1Database, workId: number): Promise<void> {
 
   if (!work) return;
 
-  // Base views: higher for animation, lower for experimental
   let baseViews = 50000;
   if (work.format === 'ANIMATION') baseViews = 120000;
   if (work.format === 'EXPERIMENTAL') baseViews = 15000;
   if (work.type === 'FEATURE_FILM') baseViews = 80000;
   if (work.type === 'SERIES') baseViews = 100000;
 
-  // Add randomness
   const views = Math.floor(baseViews * (0.5 + Math.random()));
   const likes = Math.floor(views * (0.03 + Math.random() * 0.04));
   const comments = Math.floor(views * (0.005 + Math.random() * 0.01));
@@ -118,7 +86,6 @@ async function addMockMetrics(db: D1Database, workId: number): Promise<void> {
     .bind(workId, views, likes, comments, shares, 7.0 + Math.random() * 3)
     .run();
 
-  // Add a second historical metric for momentum calculation
   const prevViews = Math.floor(views * 0.7);
   const prevLikes = Math.floor(likes * 0.6);
   const prevComments = Math.floor(comments * 0.5);

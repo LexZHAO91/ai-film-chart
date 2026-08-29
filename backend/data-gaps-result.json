@@ -1,0 +1,422 @@
+{
+  "success": true,
+  "report": {
+    "totalWorks": 31,
+    "worksWithGaps": 31,
+    "missingSynopsis": 31,
+    "missingDuration": 15,
+    "missingCountry": 31,
+    "missingLanguage": 31,
+    "missingGenre": 31,
+    "missingReleaseYear": 19,
+    "missingCreator": 0,
+    "gapsByWork": [
+      {
+        "workId": 32,
+        "title": "A Face Only A Mother Could Love",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre"
+        ],
+        "trustScore": 53,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 33,
+        "title": "Centenarian Kindergarten",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre"
+        ],
+        "trustScore": 53,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 34,
+        "title": "GO HOME",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre"
+        ],
+        "trustScore": 53,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 35,
+        "title": "Little Mes",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre"
+        ],
+        "trustScore": 53,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 36,
+        "title": "Once Upon a Time on the Dnieper River",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre"
+        ],
+        "trustScore": 53,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 37,
+        "title": "Passenger",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre"
+        ],
+        "trustScore": 53,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 38,
+        "title": "The Child of the Sea",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre"
+        ],
+        "trustScore": 53,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 39,
+        "title": "Website",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre"
+        ],
+        "trustScore": 53,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 40,
+        "title": "To Dear Me",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre"
+        ],
+        "trustScore": 53,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 41,
+        "title": "One Way",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre"
+        ],
+        "trustScore": 53,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 42,
+        "title": "Jinx",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre"
+        ],
+        "trustScore": 53,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 43,
+        "title": "The Cinema That Never Was",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre"
+        ],
+        "trustScore": 53,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 44,
+        "title": "Brother",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 50,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 45,
+        "title": "Even",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 50,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 46,
+        "title": "77 Hours",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 47,
+        "title": "The Cosmic Access Liaison",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 48,
+        "title": "The Roach Approach",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 49,
+        "title": "Cotton and Iron",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 50,
+        "title": "The Tale of the Peony",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 51,
+        "title": "WCNSF",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 52,
+        "title": "A Day in Nevada",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 53,
+        "title": "The Prompt Floor – Episode I",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 54,
+        "title": "Mamma Robot",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 55,
+        "title": "Unknown Artefact",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 56,
+        "title": "Close Enough",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 57,
+        "title": "Total Pixel Space",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 58,
+        "title": "JAILBIRD",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 59,
+        "title": "ONE",
+        "missingFields": [
+          "synopsis",
+          "duration",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 50,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 60,
+        "title": "More Tears Than Harm",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 61,
+        "title": "Fragments Of Nowhere",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      },
+      {
+        "workId": 62,
+        "title": "Emergence",
+        "missingFields": [
+          "synopsis",
+          "country",
+          "language",
+          "genre",
+          "release_year"
+        ],
+        "trustScore": 55,
+        "trustLevel": "LOW"
+      }
+    ]
+  }
+}
