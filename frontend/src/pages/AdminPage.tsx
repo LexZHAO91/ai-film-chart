@@ -344,6 +344,24 @@ const [discoveredWorks, setDiscoveredWorks] = useState<any[]>([]);
     }
   };
 
+  const handleGenerateAllPosters = async () => {
+    if (!confirm(lang === 'zh' ? '确定要为缺少缩略图的作品生成 AI 海报吗？仅作为兜底方案。' : 'Generate AI posters for works missing thumbnails? This is a fallback option.')) return;
+    setLoading(true);
+    try {
+      const result = await adminApi.generateAllThumbnails(token);
+      if (result.success) {
+        showMessage(`海报生成完成：${result.result.generated} 成功, ${result.result.failed} 失败`);
+        loadWorks();
+      } else {
+        showMessage(result.error || '生成失败');
+      }
+    } catch {
+      showMessage('生成失败');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleRunCrawler = async () => {
     if (!confirm(lang === 'zh' ? '开始全网搜索真实的 AI 影视作品？搜索结果将展示在"新发现"区域供你审核。' : 'Start crawling for real AI films? Results will be shown in "Discovered" tab for your review.')) return;
     setLoading(true);
@@ -722,6 +740,27 @@ const [discoveredWorks, setDiscoveredWorks] = useState<any[]>([]);
                   </button>
                 </div>
               ))}
+            </div>
+
+            {/* AI Poster Fallback - 兜底海报生成 */}
+            <div className="mt-8 pt-6 border-t border-gray-800">
+              <details className="text-gray-500">
+                <summary className="cursor-pointer text-sm hover:text-gray-400 transition-colors">
+                  {lang === 'zh' ? '🎨 兜底功能：为缺少缩略图的作品生成 AI 海报' : '🎨 Fallback: Generate AI posters for works missing thumbnails'}
+                </summary>
+                <div className="mt-3 flex items-center gap-3">
+                  <button
+                    onClick={handleGenerateAllPosters}
+                    disabled={loading}
+                    className="px-4 py-2 bg-gray-800 hover:bg-gray-700 disabled:bg-gray-900 text-gray-400 rounded-lg text-sm transition-colors"
+                  >
+                    {loading ? t('loading', lang) : (lang === 'zh' ? '生成 AI 海报' : 'Generate AI Posters')}
+                  </button>
+                  <span className="text-xs text-gray-600">
+                    {lang === 'zh' ? '仅用于缺少真实缩略图的作品，使用 Cloudflare AI 生成' : 'Only for works missing real thumbnails, uses Cloudflare AI'}
+                  </span>
+                </div>
+              </details>
             </div>
           </div>
         )}
