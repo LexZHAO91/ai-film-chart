@@ -1,12 +1,44 @@
 import type { D1Database } from '@cloudflare/workers-types';
 import type { Film, FilmMetrics, FilmAIAnalysis } from '../types';
 
+// Works-to-Film field mapping for backward compatibility
+// The new 'works' table is the source of truth. We map its columns to the old Film interface.
+const WORKS_TO_FILM_SELECT = `
+  w.id,
+  'YOUTUBE' as source,
+  ws.external_id as source_video_id,
+  ws.canonical_url,
+  w.canonical_title as title,
+  w.synopsis as description,
+  w.poster_url as thumbnail_url,
+  '' as channel_id,
+  w.creator_name as channel_name,
+  ws.source_published_at as published_at,
+  w.duration_seconds,
+  w.original_language as language,
+  1 as is_ai_film,
+  1 as is_story_content,
+  w.type as content_type,
+  w.genre_json,
+  w.ai_contribution_level as ai_generation_level,
+  1.0 as ai_confidence,
+  w.eligibility_status as status,
+  w.created_at,
+  w.updated_at
+`;
+
 export class FilmModel {
   constructor(private db: D1Database) {}
 
   async findById(id: number): Promise<Film | null> {
     const result = await this.db
-      .prepare('SELECT * FROM films WHERE id = ?')
+      .prepare(`
+        SELECT ${WORKS_TO_FILM_SELECT}
+        FROM works w
+        LEFT JOIN work_sources ws ON ws.work_id = w.id AND ws.is_primary_source = 1
+        WHERE w.id = ?
+        LIMIT 1
+      `)
       .bind(id)
       .first<Film>();
     return result || null;
@@ -14,22 +46,32 @@ export class FilmModel {
 
   async findBySourceVideoId(sourceVideoId: string): Promise<Film | null> {
     const result = await this.db
-      .prepare('SELECT * FROM films WHERE source_video_id = ?')
+      .prepare(`
+        SELECT ${WORKS_TO_FILM_SELECT}
+        FROM works w
+        JOIN work_sources ws ON ws.work_id = w.id
+        WHERE ws.external_id = ?
+        LIMIT 1
+      `)
       .bind(sourceVideoId)
       .first<Film>();
     return result || null;
   }
 
   async findAll(options: { status?: string; limit?: number; offset?: number } = {}): Promise<Film[]> {
-    let sql = 'SELECT * FROM films';
+    let sql = `
+      SELECT ${WORKS_TO_FILM_SELECT}
+      FROM works w
+      LEFT JOIN work_sources ws ON ws.work_id = w.id AND ws.is_primary_source = 1
+    `;
     const params: unknown[] = [];
 
     if (options.status) {
-      sql += ' WHERE status = ?';
+      sql += ' WHERE w.eligibility_status = ?';
       params.push(options.status);
     }
 
-    sql += ' ORDER BY created_at DESC';
+    sql += ' ORDER BY w.created_at DESC';
 
     if (options.limit) {
       sql += ' LIMIT ?';
@@ -82,14 +124,14 @@ export class FilmModel {
   }
 
   async updateStatus(id: number, status: string): Promise<void> {
-    await this.db.prepare('UPDATE films SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
+    await this.db.prepare('UPDATE works SET eligibility_status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
       .bind(status, id)
       .run();
   }
 
   async getFilmStatus(id: number): Promise<string | null> {
     const result = await this.db
-      .prepare('SELECT status FROM films WHERE id = ?')
+      .prepare('SELECT eligibility_status as status FROM works WHERE id = ?')
       .bind(id)
       .first<{ status: string }>();
     return result?.status || null;
@@ -97,7 +139,7 @@ export class FilmModel {
 
   async getLatestMetrics(filmId: number): Promise<FilmMetrics | null> {
     const result = await this.db
-      .prepare('SELECT * FROM film_metrics WHERE film_id = ? ORDER BY collected_at DESC LIMIT 1')
+      .prepare('SELECT * FROM work_metrics WHERE work_id = ? ORDER BY collected_at DESC LIMIT 1')
       .bind(filmId)
       .first<FilmMetrics>();
     return result || null;
@@ -106,8 +148,8 @@ export class FilmModel {
   async getMetricsHistory(filmId: number, days: number = 30): Promise<FilmMetrics[]> {
     const { results } = await this.db
       .prepare(`
-        SELECT * FROM film_metrics
-        WHERE film_id = ? AND collected_at >= datetime('now', '-${days} days')
+        SELECT * FROM work_metrics
+        WHERE work_id = ? AND collected_at >= datetime('now', '-${days} days')
         ORDER BY collected_at DESC
       `)
       .bind(filmId)
@@ -117,7 +159,7 @@ export class FilmModel {
 
   async addMetrics(filmId: number, metrics: { views: number; likes: number; comments: number }): Promise<void> {
     await this.db.prepare(`
-      INSERT INTO film_metrics (film_id, views, likes, comments)
+      INSERT INTO work_metrics (work_id, views, likes, comments)
       VALUES (?, ?, ?, ?)
     `).bind(filmId, metrics.views, metrics.likes, metrics.comments).run();
   }
@@ -146,11 +188,13 @@ export class FilmModel {
 
   async getFilmsNeedingMetricsUpdate(limit: number = 50): Promise<Film[]> {
     const { results } = await this.db.prepare(`
-      SELECT f.* FROM films f
-      LEFT JOIN film_metrics fm ON f.id = fm.film_id
-      WHERE f.status = 'approved'
-      GROUP BY f.id
-      HAVING fm.collected_at IS NULL OR MAX(fm.collected_at) < datetime('now', '-1 days')
+      SELECT ${WORKS_TO_FILM_SELECT}
+      FROM works w
+      LEFT JOIN work_sources ws ON ws.work_id = w.id AND ws.is_primary_source = 1
+      LEFT JOIN work_metrics wm ON w.id = wm.work_id
+      WHERE w.eligibility_status = 'approved'
+      GROUP BY w.id
+      HAVING wm.collected_at IS NULL OR MAX(wm.collected_at) < datetime('now', '-1 days')
       LIMIT ?
     `).bind(limit).all<Film>();
     return results || [];
@@ -158,9 +202,11 @@ export class FilmModel {
 
   async getFilmsNeedingAIAnalysis(limit: number = 50): Promise<Film[]> {
     const { results } = await this.db.prepare(`
-      SELECT f.* FROM films f
-      LEFT JOIN film_ai_analysis fa ON f.id = fa.film_id
-      WHERE f.status = 'pending' AND fa.id IS NULL
+      SELECT ${WORKS_TO_FILM_SELECT}
+      FROM works w
+      LEFT JOIN work_sources ws ON ws.work_id = w.id AND ws.is_primary_source = 1
+      LEFT JOIN film_ai_analysis fa ON w.id = fa.film_id
+      WHERE w.eligibility_status = 'pending' AND fa.id IS NULL
       LIMIT ?
     `).bind(limit).all<Film>();
     return results || [];

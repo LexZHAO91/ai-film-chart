@@ -57,6 +57,23 @@ export function FilmDetailPage() {
                   src={film.thumbnail_url}
                   alt={film.title}
                   className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    if (target.src.includes('maxresdefault.jpg')) {
+                      target.src = target.src.replace('maxresdefault.jpg', 'hqdefault.jpg');
+                    } else if (target.src.includes('hqdefault.jpg')) {
+                      target.src = target.src.replace('hqdefault.jpg', 'default.jpg');
+                    } else {
+                      target.onerror = null;
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent) {
+                        parent.className = 'aspect-video bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center text-gray-600';
+                        parent.textContent = 'No Image';
+                      }
+                    }
+                  }}
                 />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-gray-600">
@@ -65,14 +82,16 @@ export function FilmDetailPage() {
               )}
             </div>
 
-            <a
-              href={film.canonical_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 block w-full text-center py-3 bg-red-600 hover:bg-red-700 rounded-lg font-medium transition-colors"
-            >
-              Watch on YouTube
-            </a>
+            {film.canonical_url && (
+              <a
+                href={film.canonical_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 block w-full text-center py-3 bg-red-600 hover:bg-red-700 rounded-lg font-medium transition-colors"
+              >
+                Watch on YouTube
+              </a>
+            )}
           </div>
 
           {/* Details */}
