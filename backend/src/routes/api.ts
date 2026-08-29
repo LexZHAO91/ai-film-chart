@@ -26,6 +26,7 @@ import { Phase34ReviewCleanupService } from '../services/phase34-review-cleanup-
 import { Phase35InitialPoolService } from '../services/phase35-initial-pool-service';
 import { AdminCrudService } from '../services/admin-crud-service';
 import { ThumbnailService } from '../services/thumbnail-service';
+import { AIFilmCrawler } from '../services/ai-film-crawler';
 import { GoldenDatasetService } from '../services/golden-dataset-service';
 import { HumanBaselineService } from '../services/human-baseline-service';
 import { WorkService } from '../works';
@@ -400,6 +401,15 @@ return await seedDiscoveryCandidates(env.DB, headers);
       if (path.startsWith('/api/admin/works/') && request.method === 'PUT' && path.endsWith('/poster')) {
         const workId = parseInt(path.split('/')[4], 10);
         return await updateWorkPoster(request, env.DB, headers, workId);
+      }
+
+      // AI Film Crawler APIs
+      if (path === '/api/admin/crawler/run' && request.method === 'POST') {
+        return await runCrawler(env, headers);
+      }
+
+      if (path === '/api/admin/crawler/status' && request.method === 'GET') {
+        return await getCrawlerStatus(env.DB, headers);
       }
 
       // Phase 27: Ranking Laboratory APIs
@@ -2482,6 +2492,41 @@ async function getAdminWorkAuditLog(db: D1Database, headers: Record<string, stri
     const service = new AdminCrudService(db);
     const logs = await service.getWorkAuditLog(workId);
     return jsonResponse({ success: true, logs }, 200, headers);
+  } catch (error) {
+    return jsonResponse({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, 500, headers);
+  }
+}
+
+// ============================================
+// AI Film Crawler APIs
+// ============================================
+
+async function runCrawler(env: Env, headers: Record<string, string>): Promise<Response> {
+  try {
+    const crawler = new AIFilmCrawler(env.DB);
+    const result = await crawler.crawlAll();
+    const report = crawler.generateReport(result);
+    return jsonResponse({ success: true, result, report }, 200, headers);
+  } catch (error) {
+    return jsonResponse({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, 500, headers);
+  }
+}
+
+async function getCrawlerStatus(db: D1Database, headers: Record<string, string>): Promise<Response> {
+  try {
+    const { results: count } = await db
+      .prepare('SELECT COUNT(*) as total FROM works')
+      .all<{ total: number }>();
+    
+    const { results: recent } = await db
+      .prepare('SELECT canonical_title, creator_name, poster_url, release_year FROM works ORDER BY id DESC LIMIT 10')
+      .all<{ canonical_title: string; creator_name: string; poster_url: string; release_year: number }>();
+
+    return jsonResponse({
+      success: true,
+      total_works: count?.[0]?.total ?? 0,
+      recent_works: recent ?? [],
+    }, 200, headers);
   } catch (error) {
     return jsonResponse({ success: false, error: error instanceof Error ? error.message : 'Unknown error' }, 500, headers);
   }

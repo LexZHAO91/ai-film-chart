@@ -92,6 +92,11 @@ const adminApi = {
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
     body: JSON.stringify({ poster_url: posterUrl, admin_id: 'admin' }),
   }).then(r => r.json()),
+
+  runCrawler: (token: string) => fetch(`${API_BASE}/api/admin/crawler/run`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+  }).then(r => r.json()),
 };
 
 // ============================================
@@ -356,6 +361,26 @@ const [generatingPoster, setGeneratingPoster] = useState<number | null>(null);
     }
   };
 
+  const handleRunCrawler = async () => {
+    if (!confirm('开始全网搜索真实的 AI 影视作品？这将自动从 YouTube 发现并导入真实作品。')) return;
+    setLoading(true);
+    try {
+      const result = await adminApi.runCrawler(token);
+      if (result.success) {
+        const r = result.result;
+        showMessage(`爬取完成：发现 ${r.total_discovered} 部，导入 ${r.total_imported} 部，跳过 ${r.total_skipped} 部`);
+        loadWorks();
+        loadPhase35Status();
+      } else {
+        showMessage(result.error || '爬取失败');
+      }
+    } catch {
+      showMessage('爬取失败，请稍后重试');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSaveWatchSource = async (data: object) => {
     try {
       const result = editingWatchSource?.source
@@ -579,6 +604,9 @@ const [generatingPoster, setGeneratingPoster] = useState<number | null>(null);
               </button>
               <button onClick={handleGenerateAllPosters} className="px-5 py-3 bg-purple-700 hover:bg-purple-600 rounded-lg transition-colors whitespace-nowrap">
                 {t('generateAllPosters', lang)}
+              </button>
+              <button onClick={handleRunCrawler} disabled={loading} className="px-5 py-3 bg-green-700 hover:bg-green-600 disabled:bg-green-900 rounded-lg transition-colors whitespace-nowrap">
+                {loading ? t('loading', lang) : '🔍 ' + (lang === 'zh' ? '全网搜索AI影片' : 'Crawl AI Films')}
               </button>
             </div>
 
